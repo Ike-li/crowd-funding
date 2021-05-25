@@ -403,6 +403,7 @@
                     </div>
                 </div><!--// CopyRight //-->
             </div><!-- jQuery (necessary JavaScript) -->
+            {% endblock %}
             <script src="../static/assets/scripts/jquery.js"></script>
             <script src="../static/assets/scripts/bootstrap.min.js"></script>
             <script src="../static/assets/scripts/modernizr.js"></script>
@@ -412,6 +413,6 @@
             <script>
             jQuery(window).load(function(){              jQuery('.flexslider').flexslider({                      animation: "slide",                     controlNav: false,                      prevText:"<em class='icon-arrow-left10'><\/em>",                 nextText:"<em class='icon-arrow-right10'><\/em>",                        start: function(slider){                                jQuery('body').removeClass('loading');                  }               });     });
             </script>
-            {% endblock %}
+
     </body>
 </html>
