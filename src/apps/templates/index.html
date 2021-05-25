@@ -32,12 +32,12 @@
                     <div class="main-head">
                         <div class="left-side">
                             <div class="logo">
-                                <a href="index.html"><img src="../static/assets/images/logo.png" alt=""></a>
+                                <a href="/"><img src="../static/assets/images/logo.png" alt=""></a>
                             </div>
                             <nav class="navigation">
                                 <ul>
                                     <li>
-                                        <a href="index.html">首页</a>
+                                        <a href="/">首页</a>
                                     </li>
                                     <li>
                                         <a href="#">Discover</a>
@@ -150,26 +150,26 @@
 
                                             {% if user_name %}
                                                 <h5>
-                                                    Mark Benson
-                                                </h5><span>Member Since May 20, 2014</span>
+                                                    {{ user_name }}
+                                                </h5><span>---------------------------</span>
                                                 <ul class="dropdown">
                                                     <li>
-                                                        <a href="causes.html"><i class="icon-flag5"></i>My Causes</a>
+                                                        <a href="causes.html"><i class="icon-flag5"></i>我的项目</a>
                                                     </li>
                                                     <li>
-                                                        <a href="saved.html"><i class="icon-file-text-o"></i>Saved Causes</a>
+                                                        <a href="saved.html"><i class="icon-comment"></i>我的评论</a>
                                                     </li>
                                                     <li>
-                                                        <a href="my-donation.html"><i class="icon-file-text-o"></i>My Donations</a>
+                                                        <a href="my-donation.html"><i class="icon-money"></i>我的打赏</a>
                                                     </li>
                                                     <li>
-                                                        <a href="donation.html"><i class="icon-ticket6"></i>Donations</a>
+                                                        <a href="donation.html"><i class="icon-ticket6"></i>我的收藏</a>
                                                     </li>
                                                     <li>
-                                                        <a href="profilesetting.html"><i class="icon-pie2"></i>Profile Settings</a>
+                                                        <a href="{{ url_for('user.add_function') }}"><i class="icon-plus6"></i>创建新项目</a>
                                                     </li>
                                                     <li>
-                                                        <a href="create-new-cause.html"><i class="icon-plus6"></i>Create New</a>
+                                                        <a href="profilesetting.html"><i class="icon-profile-male"></i>个人资料设置</a>
                                                     </li>
                                                 </ul><a class="sign-btn" href="{{ url_for("user.user_logout") }}"><i class="icon-logout"></i>登出</a>
                                             {% else %}
@@ -208,7 +208,7 @@
                                         </div>
                                     </li>
                                 </ul>
-                            </div><a href="sign.html" class="free-btn">建立你的项目</a>
+                            </div><a href="{{ url_for('user.add_function') }}" class="free-btn">建立您的项目</a>
                         </div>
                     </div>
                     <div class="mob-nav"></div>
@@ -982,7 +982,7 @@
                                     <div class="cs-content-holder">
                                         <div class="row">
                                             <div class="signup-area col-lg-12">
-                                                <a href="#" class="cs-btn">开始你的活动</a>
+                                                <a href="{{ url_for('user.user_registering') }}" class="cs-btn">开始您的众筹之旅</a>
                                                 <div class="main-heading">
                                                     <h1>
                                                         立即注册以参加重要的筹集。

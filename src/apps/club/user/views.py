@@ -137,7 +137,7 @@ def user_logout():
 @user_bp.route('/add')
 @load_user
 def add_function():
-    return render_template('user/user_add_function.html')
+    return render_template('user/create_new_function.html')
 
 
 # 用户任务添加

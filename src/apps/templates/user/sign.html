@@ -27,17 +27,17 @@
         <div class="wrapper">
             <!-- Header -->
             <header id="main-header">
-{#                <div class="container">#}
-{#                    <div class="main-head">#}
-{#                        <div class="left-side">#}
-{#                            <div class="logo">#}
-{#                                <a href="index.html"><img src="assets/images/logo.png" alt=""></a>#}
-{#                            </div>#}
-{#                            <nav class="navigation">#}
-{#                                <ul>#}
-{#                                    <li>#}
-{#                                        <a href="index.html">Home</a>#}
-{#                                    </li>#}
+                <div class="container">
+                    <div class="main-head">
+                        <div class="left-side">
+                            <div class="logo">
+                                <a href="{{ url_for('index') }}"><img src="../../static/assets/images/logo.png" alt=""></a>
+                            </div>
+                            <nav class="navigation">
+                                <ul>
+                                    <li>
+                                        <a href="{{ url_for('index') }}">首页</a>
+                                    </li>
 {#                                    <li>#}
 {#                                        <a href="#">Discover</a>#}
 {#                                        <ul class="sub-dropdown">#}
@@ -119,10 +119,10 @@
 {#                                            </li>#}
 {#                                        </ul>#}
 {#                                    </li>#}
-{#                                </ul>#}
-{#                            </nav>#}
-{#                        </div>#}
-{#                        <div class="right-side">#}
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="right-side">
 {#                            <div class="cs-search-block">#}
 {#                                <form>#}
 {#                                    <input type="text" id="s" name="s" value="Search Project" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>#}
@@ -161,9 +161,9 @@
 {#                                </ul>#}
 {#                            </div><a href="sign.html" class="free-btn">Start for Free</a>#}
 {#                        </div>#}
-{#                    </div>#}
-{#                    <div class="mob-nav"></div>#}
-{#                </div>#}
+                    </div>
+                    <div class="mob-nav"></div>
+                </div>
             </header><!-- Header -->
             <div style="background:url(../../static/assets/images/bg-signup.jpg) no-repeat; background-size:100% auto; min-height:157px!important;" class="breadcrumb-sec">
                 <div class="absolute-sec">
@@ -217,7 +217,7 @@
                                                                             <li class="col-lg-12">
                                                                                 <input class="cs-bgcolor" type="submit" value="登入">
                                                                             </li>
-                                                                            <br><br>{{ msg }}
+                                                                            <br><br><strong>{{ msg }}</strong>
                                                                         </ul>
                                                                     </form>
                                                                 </div>
@@ -250,13 +250,19 @@
                                                         <div class="sign-form">
                                                             <div class="row">
                                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                                    <form class="signup-form">
+                                                                    <form action="{{ url_for('user.user_register') }}" method="post" class="signup-form">
                                                                         <ul class="row">
                                                                             <li class="col-lg-6 col-md-6 col-sm-6">
-                                                                                <label>用 户 名</label><input type="text" placeholder="">
+                                                                                <label>用 户 名</label><input type="text" name="user_name" placeholder="" required="required">
                                                                             </li>
                                                                             <li class="col-lg-6 col-md-6 col-sm-6">
-                                                                                <label>邮 箱</label><input type="text" placeholder="">
+                                                                                <label>邮 箱</label><input type="text" name="email" placeholder="" required="required">
+                                                                            </li>
+                                                                            <li class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <label>密 码</label><input type="password" name="user_passwd" placeholder="" required="required">
+                                                                            </li>
+                                                                            <li class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <label>确认密码</label><input type="password" name="re_user_passwd" placeholder="" required="required">
                                                                             </li>
                                                                             <li class="col-lg-6 col-md-6 col-sm-6">
                                                                                 <label>姓 <span>（可选）</span></label><input type="text" placeholder="">
@@ -266,7 +272,7 @@
                                                                             </li>
                                                                             <li class="col-lg-12">
 {#                                                                                <label>电话号码 <span>(Optional)</span></label><input type="text" placeholder="">#}
-                                                                                <label>电话号码</label><input type="text" placeholder="">
+                                                                                <label>电话号码</label><input type="tel" name="phone" placeholder="" required="required">
                                                                             </li>
                                                                             <li class="col-lg-12">
                                                                                 <input class="cs-bgcolor" type="submit" value="创建账户">
