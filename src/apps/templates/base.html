@@ -7,9 +7,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {% block title %}
-            <title> base </title><!-- Css (necessary Css) -->
-        {% endblock %}
+        <title>
+        {% block title %} base {% endblock %}
+        </title><!-- Css (necessary Css) -->
 
 
         <link href="../static/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -28,14 +28,15 @@
     {% endblock %}
 
     <body>
-
+    {% block body %}
         <div class="wrapper">
         {% for message in get_flashed_messages() %}
                 {{ message }}
         {% endfor %}
 
-        {% block header %}
+
             <!-- Header -->
+            {% block header %}
             <header id="main-header">
                 <div class="container">
                     <div class="main-head">
@@ -223,7 +224,7 @@
                     <div class="mob-nav"></div>
                 </div>
             </header><!-- Header -->
-        {% endblock %}
+            {% endblock %}
 
             <div class="cs-banner">
                 <div class="flexslider">
@@ -670,7 +671,7 @@
                     </div>
 
 
-
+                    {% block register %}
                     <div class="page-section" style="background:url(../static/assets/images/bg-signup.jpg) no-repeat 100% 50%; background-size:cover;">
                         <div class="container">
                             <div class="row">
@@ -691,10 +692,11 @@
                             </div>
                         </div>
                     </div>
+                    {% endblock %}
                 </div>
             </main><!--// Main Content //--><!--// Footer Widget //-->
 
-        {% block footer %}
+            {% block footer %}
             <footer id="footer-sec">
                 <div class="container">
                     <div class="row">
@@ -801,11 +803,13 @@
                     </div>
                 </div>
             </footer><!--// Footer Widget //-->
-        {% endblock footer %}
+            {% endblock footer %}
 
-        {% block copyright %}
+
             <!--// CopyRight //-->
+            {% block copyright %}
             <div id="copyright">
+
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -866,8 +870,10 @@
                         </div>
                     </div>
                 </div>
+
             </div><!--// CopyRight //-->
-        {% endblock copyright %}
+            {% endblock %}
+
 
         </div><!-- jQuery (necessary JavaScript) -->
 
@@ -882,6 +888,6 @@
             jQuery(window).load(function(){              jQuery('.flexslider').flexslider({                      animation: "slide",                     controlNav: false,                      prevText:"<em class='icon-arrow-left10'><\/em>",                 nextText:"<em class='icon-arrow-right10'><\/em>",                        start: function(slider){                                jQuery('body').removeClass('loading');                  }               });     });
             </script>
         {% endblock %}
-
+    {% endblock %}
     </body>
 </html>

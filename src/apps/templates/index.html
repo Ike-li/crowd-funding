@@ -1,9 +1,12 @@
+{% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
 {% block head %}
+
     {% block title %}
-        <title>index</title>
+        <title>首页</title>
     {% endblock %}
+    {{ super()}}
 {% endblock %}
 <body>
     <div class="wrapper">
@@ -12,6 +15,7 @@
         {% endfor %}
 
         {% block header %}
+            {{ super() }}
         {% endblock %}
 
         <div class="cs-banner">
@@ -56,11 +60,6 @@
                                 <div class="section-fullwidth col-lg-12">
                                     <div class="cs-content-holder">
                                         <div class="row">
-                                            <!-- <div class="main-heading top-center">
-                                                <h1>
-                                                    The world’s funding engine.
-                                                </h1><strong class="title">We're distributing millions of dollars every week to campaigners around the world. Whether you're raising 500 dollars or 5 million euros.</strong>
-                                            </div> -->
                                             <div class="col-lg-4 col-md-4 col-sm-6">
                                                 <article class="cs-services modren top-center">
                                                     <figure>
@@ -85,9 +84,6 @@
                                                         <h2>
                                                             第二步、分享你的故事
                                                         </h2>
-                                                        <!-- <p>
-                                                            So sarcastically strung dazedly crab dear good-ness exuberant lightly fish so hey underneath to excluding apt burst walked gosh pugnaciously hello onto ouch lantern.
-                                                        </p><a href="#" class="read-more">Read More</a> -->
                                                     </div>
                                                 </article>
                                             </div>
@@ -100,9 +96,6 @@
                                                         <h2>
                                                             第三步、筹集资金
                                                         </h2>
-                                                        <!-- <p>
-                                                            So sarcastically strung dazedly crab dear good-ness exuberant lightly fish so hey underneath to excluding apt burst walked gosh pugnaciously hello onto ouch lantern.
-                                                        </p><a href="#" class="read-more">Read More</a> -->
                                                     </div>
                                                 </article>
                                             </div>
@@ -446,7 +439,6 @@
 
                                                     </div>
 													<form action="#" method="post">
-{#														<input type="button" value="上一页" name="last page" />#}
 														<input type="button" value="加载更多" name="next page" class="center-block"/>
 													</form>
                                                 </div>
@@ -459,49 +451,26 @@
                     </div>
 
 
+                    {% block register %}
+                        {{ super() }}
+                    {% endblock %}
 
-                    <div class="page-section" style="background:url(../static/assets/images/bg-signup.jpg) no-repeat 100% 50%; background-size:cover;">
-                        <div class="container">
-                            <div class="row">
-                                <div class="section-fullwidth col-lg-12">
-                                    <div class="cs-content-holder">
-                                        <div class="row">
-                                            <div class="signup-area col-lg-12">
-                                                <a href="{{ url_for('user.user_registering') }}" class="cs-btn">开始您的众筹之旅</a>
-                                                <div class="main-heading">
-                                                    <h1>
-                                                        立即注册以参加重要的筹集。
-                                                    </h1><strong class="title">我们有能力开始改变世界。</strong>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </main><!--// Main Content //--><!--// Footer Widget //-->
 
         {% block footer %}
+            {{ super() }}
         {% endblock %}
 
         {% block copyright %}
+            {{ super() }}
         {% endblock %}
 
     </div><!-- jQuery (necessary JavaScript) -->
 
-{#    {% block script %}#}
-{#    {% endblock %}#}
-     <script src="../static/assets/scripts/jquery.js"></script>
-            <script src="../static/assets/scripts/bootstrap.min.js"></script>
-            <script src="../static/assets/scripts/modernizr.js"></script>
-            <script src="../static/assets/scripts/menu.js"></script>
-            <script src="../static/assets/scripts/jquery.flexslider-min.js"></script>
-            <script src="../static/assets/scripts/functions.js"></script>
-            <script>
-            jQuery(window).load(function(){              jQuery('.flexslider').flexslider({                      animation: "slide",                     controlNav: false,                      prevText:"<em class='icon-arrow-left10'><\/em>",                 nextText:"<em class='icon-arrow-right10'><\/em>",                        start: function(slider){                                jQuery('body').removeClass('loading');                  }               });     });
-            </script>
+    {% block script %}
+        {{ super() }}
+    {% endblock %}
 
 </body>
 </html>
