@@ -84,7 +84,7 @@ def user_center():
     cql = "SELECT * FROM users.user WHERE user_name = %s;"
     data = cass_session.execute(cql, cass_ls).all()
     print(type(data[0]))
-    return render_template('user_info.html', parameter=data[0])
+    return render_template('us=er_info.html', parameter=data[0])
 
 
 # 用户登录界面

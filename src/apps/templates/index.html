@@ -173,271 +173,43 @@
                                             </aside>
                                             <div class="page-content col-lg-9">
                                                 <div class="listing_grid">
-                                                    <div class="row">
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/img.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
+                                                    {% block row %}
+                                                            <div class="row">
+                                                                {% for i in functions %}
+                                                                    <article class="col-lg-4 col-md-4 col-sm-6">
+                                                                        <div class="directory-section">
+                                                                            <div class="cs_thumbsection">
+                                                                                <figure>
+    {#                                                                                <a href="#"><img src="../static/assets/extra-images/img.jpg" alt=""></a>#}
+                                                                                    <a href="#"><img src="{{ i.function_cover }}" alt=""></a>
+                                                                                </figure>
+                                                                            </div>
+                                                                            <div class="content_info">
+                                                                                <div class="title">
+                                                                                    <h3>
+                                                                                        <a href="#">{{ i.function_title }}</a>
+                                                                                    </h3><span class="addr">{{ i.function_introduction }}</span>
+                                                                                </div>
+                                                                                <div class="dr_info">
+                                                                                    <ul>
+                                                                                        <li>
+                                                                                            <i class="cscolor icon-target5"></i>¥ {{ i.crowd_funding_money }} goal
+                                                                                        </li>
+                                                                                        <li>
+                                                                                            <i class="cscolor icon-clock7" ></i>{{ i.closing_time| string |truncate(10, True, '') }} <!-- jinja2 过滤器 -->
+                                                                                        </li>
+                                                                                    </ul><span class="bar"><span style="width:{{ (i.crowd_funding_current_money / i.crowd_funding_money) * 100 }}%;"></span></span>     <!-- 颜色进度条-->
+                                                                                    <div class="detail">
+                                                                                        <span class="fund">{{ (i.crowd_funding_current_money / i.crowd_funding_money) * 100 }} % Funded</span><a href="#" class="star icon-star"></a>   <!-- 金额进度条-->
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                </div>
+                                                                    </article>
+                                                                {% endfor %}
                                                             </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-1.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:84%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">84% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-2.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-3.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-4.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:84%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">84% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-5.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-6.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-7.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:84%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">84% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </article>
-                                                        <article class="col-lg-4 col-md-4 col-sm-6">
-                                                            <div class="directory-section">
-                                                                <div class="cs_thumbsection">
-                                                                    <figure>
-                                                                        <a href="#"><img src="../static/assets/extra-images/listing-grid-8.jpg" alt=""></a>
-                                                                    </figure>
-                                                                </div>
-                                                                <div class="content_info">
-                                                                    <div class="title">
-                                                                        <h3>
-                                                                            <a href="#">We Are Cove Point - Stop Gas Export Plant</a>
-                                                                        </h3><span class="addr">user2-测试任务四的简介</span>
-                                                                    </div>
-                                                                    <div class="dr_info">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <i class="cscolor icon-target5"></i>¥84,000 goal
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="cscolor icon-clock7"></i>July 27, 2014
-                                                                            </li>
-                                                                        </ul><span class="bar"><span style="width:12%;"></span></span>
-                                                                        <div class="detail">
-                                                                            <span class="fund">12% Funded</span><a href="#" class="star icon-star"></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                    {% endblock %}
 
-                                                        </article>
-
-                                                    </div>
 													<form action="#" method="post">
 														<input type="button" value="加载更多" name="next page" class="center-block"/>
 													</form>

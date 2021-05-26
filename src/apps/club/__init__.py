@@ -3,7 +3,7 @@ from flask_ckeditor import CKEditor
 
 from src.apps.club.admin.views import admin_bp
 from src.apps.club.user.views import user_bp
-from src.apps.settings import DevelopmentConfig
+from src.apps.settings import DevelopmentConfig, cass_session
 
 ckeditor = CKEditor()
 
@@ -25,11 +25,15 @@ def create_app():
     # 首页
     @app.route('/')
     def index():
-        return render_template('index.html')
+        cql = "SELECT * FROM functions.functions;"
+        data = cass_session.execute(cql)
+        functions = data.all()
+        return render_template('index.html', functions=functions)
 
     @app.route('/base')
     def base():
         return render_template('base.html')
 
+    # @app.route('')
 
     return app

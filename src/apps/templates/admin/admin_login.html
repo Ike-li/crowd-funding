@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+    {% block head %}
+
+    {% block title %}
+        <title>管理员登录</title>
+    {% endblock %}
+    {{ super()}}
+    {% endblock %}
+
+    <body>
+    {% block body %}
+    {% for message in get_flashed_messages() %}
+        {{ message }}
+    {% endfor %}
+        <div class="wrapper">
+        {% block header %}
+            {{ super() }}
+        {% endblock %}
+
+            <div style="background:url(../../static/assets/images/bg-signup.jpg) no-repeat; background-size:100% auto; min-height:157px!important;" class="breadcrumb-sec">
+                <div class="absolute-sec">
+                    <div class="container">
+                        <div class="cs-table">
+                            <div class="cs-tablerow">
+                                <div class="pageinfo page-title-align-center">
+                                    <h1 style="color:#fff !important; text-transform:none; text-align:center;">
+                                        管理员登录
+                                    </h1><strong class="title" style="text-align:center; display:block; color:#fff; font-weight:normal;">管理员</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Main Start -->
+            <div id="main">
+                <section class="page-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="section-fullwidth">
+                                <div class="cs-content-holder">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="user-signup">
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li role="presentation" class="active">
+                                                        <a href="#home" aria-controls="home" role="tab" data-toggle="tab">登入</a>
+                                                    </li>
+{#                                                    <li role="presentation">#}
+{#                                                        <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">注册</a>#}
+{#                                                    </li>#}
+                                                </ul><!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div role="tabpanel" class="tab-pane active" id="home">
+                                                        <div class="sign-form">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                                    <form action="{{ url_for('admin.admin_login') }}" method="post" class="signup-form">
+                                                                        <ul class="row">
+                                                                            <li class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <label>管理员</label><input type="text" name="admin_name" placeholder="" required="required">
+                                                                            </li>
+                                                                            <li class="col-lg-6 col-md-6 col-sm-6">
+                                                                                <label>密 码</label><input type="password" name="admin_passwd" placeholder="" required="required">
+                                                                            </li>
+                                                                            <li class="col-lg-12">
+                                                                                <a href="#"><i class="icon-question-circle"></i>忘记密码?</a>
+                                                                            </li>
+                                                                            <li class="col-lg-12">
+                                                                                <input class="cs-bgcolor" type="submit" value="登入">
+                                                                            </li>
+                                                                            <br><br><strong>{{ msg }}</strong>
+                                                                        </ul>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div><!-- Main End -->
+
+        {% block register %}
+            {{ super() }}
+        {% endblock %}
+
+        <!--// Footer Widget //-->
+        {% block footer %}
+            {{ super() }}
+        {% endblock %}
+        <!--// Footer Widget //-->
+
+        <!--// CopyRight //-->
+        {% block copyright %}
+            {{ super() }}
+        {% endblock %}
+        <!--// CopyRight //-->
+
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+        <script src="../../static/assets/scripts/bootstrap.min.js"></script>
+        <script src="../../static/assets/scripts/menu.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script><!-- Put all Functions in functions.js -->
+        <script src="../../static/assets/scripts/functions.js"></script>
+
+        {% block script %}
+            {{ super() }}
+        {% endblock %}
+    {% endblock %}
+    </body>
+</html>
