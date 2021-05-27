@@ -182,6 +182,11 @@
                                                         <a href="profilesetting.html"><i class="icon-profile-male"></i>个人资料设置</a>
                                                     </li>
                                                 </ul><a class="sign-btn" href="{{ url_for("user.user_logout") }}"><i class="icon-logout"></i>登出</a>
+                                            {% elif admin_name %}
+                                                <ul class="dropdown">
+                                                <li><a href="{{ url_for('admin.admin_center') }}">欢迎 {{ admin_name }}</a></li>
+                                                <li><a href="{{ url_for('admin.admin_logout') }}">管理员注销</a></li>
+                                                </ul>
                                             {% else %}
                                                 <ul class="dropdown">
                                                     <li>
@@ -556,7 +561,11 @@
 {#                                        <a href="#"><i class="icon-googleplus7"></i></a>#}
 {#                                    </li>#}
                                     <li>
-                                        <a href="{{ url_for('admin.admin_logging') }}"><i class="icon-instagram4"></i></a>
+                                        {% if admin_name %}
+                                            <a href="{{ url_for('admin.admin_center') }}"><i class="icon-instagram4"></i></a>
+                                        {% else %}
+                                            <a href="{{ url_for('admin.admin_logging') }}"><i class="icon-instagram4"></i></a>
+                                        {% endif %}
                                     </li>
 {#                                    <li>#}
 {#                                        <a href="#"><i class="icon-youtube-play"></i></a>#}
