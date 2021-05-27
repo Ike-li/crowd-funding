@@ -39,7 +39,10 @@ def get_current_admin():
 @admin_bp.route('/')
 @load_admin
 def admin_center():
-    return render_template('admin/admin_info.html')
+    cql = "SELECT function_id,created_at,crowd_funding_money,function_title FROM functions.functions_request;"
+    data = cass_session.execute(cql)
+    functions_request = data.all()
+    return render_template('admin/admin_info.html', args = functions_request)
 
 
 # 管理员登录界面
