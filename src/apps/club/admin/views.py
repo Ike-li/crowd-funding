@@ -39,10 +39,10 @@ def get_current_admin():
 @admin_bp.route('/')
 @load_admin
 def admin_center():
-    cql = "SELECT function_id,created_at,crowd_funding_money,function_title FROM functions.functions_request;"
+    cql = "SELECT * FROM functions.functions_request_by_status WHERE state = '未审核';"
     data = cass_session.execute(cql)
     functions_request = data.all()
-    return render_template('admin/admin_info.html', args = functions_request)
+    return render_template('admin/admin_info.html', args=functions_request)
 
 
 # 管理员登录界面
@@ -93,26 +93,36 @@ def admin_logout():
 
 
 # 管理员查看审核表各功能的状态
-@admin_bp.route('/functions/<state>')
+@admin_bp.route('/functions')
 @load_admin
-def functions_state(state):
+def functions_state():
     """
     返回check_list的 部分FR(仅包含未审核、已通过、审核中、未通过四种)
     :return:
     """
 
+    state = request.args.get('state')
     ls = [state]
-    cql = "SELECT * FROM functions.functions_request_by_status WHERE state = %s allow filtering ; "
+    cql = "SELECT * FROM functions.functions_request_by_status WHERE state = %s; "
     data = cass_session.execute(cql, ls)
-    ls1 = data.all()
-    print(ls1)
+    functions = data.all()
+    print(functions)
     # ls1 = []
     # for i in data:
     #     ls1.append(i)
-    return render_template('admin/admin_functions_state.html', parameter=ls1, state=state)
+    if state == "未审核":
+        return render_template('admin/admin_functions_not_reviewed.html', args=functions, state=state)
+    elif state == "审核中":
+        return render_template('admin/admin_functions_under_review.html', args=functions, state=state)
+    elif state == "未通过":
+        return render_template('admin/admin_functions_under_review.html', args=functions, state=state)
+    elif state == "已通过":
+        return render_template('admin/admin_functions_under_review.html', args=functions, state=state)
+    else:
+        # return render_template('404.html')
+        return "Failed"
 
-
-# 管理员查看某功能的详细信息
+# 管理员查看某请求任务的详细信息
 @admin_bp.route('/<function_id>', methods=['GET'])
 @load_admin
 def function(function_id):

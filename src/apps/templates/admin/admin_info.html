@@ -30,19 +30,20 @@
                                             <div class="row" >
                                                 <div class="cause-holder" style="width: 100%">
                                                     <div class="col-lg-12">
+                                                        {% block profile_block %}
                                                         <div class="profile-block">
                                                             <ul class="scroll-nav">
                                                                 <li class="active">
-                                                                    <a href="causes.html"><i class="icon-circle-o-notch"></i>待审核任务</a>
+                                                                    <a href="{{ url_for('admin.functions_state', state = "未审核") }}"><i class="icon-circle-o-notch"></i>待审核任务</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="saved.html"><i class="icon-save"></i>审核中任务</a>
+                                                                    <a href="{{ url_for('admin.functions_state', state = "审核中") }}"><i class="icon-save"></i>审核中任务</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="my-donation.html"><i class="icon-money"></i>未通过任务</a>
+                                                                    <a href="{{ url_for('admin.functions_state', state = "未通过") }}"><i class="icon-money"></i>未通过任务</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="profilesetting.html"><i class="icon-gear"></i>众筹中（已审核）任务</a>
+                                                                    <a href="{{ url_for('admin.functions_state', state = "已通过") }}"><i class="icon-gear"></i>众筹中（已审核）任务</a>
                                                                 </li>
                                                                 <li>
                                                                     <a href="create-new-cause.html"><i class="icon-star-o"></i>收藏统计</a>
@@ -75,7 +76,7 @@
                                                                                         任务 ID
                                                                                     </th>
                                                                                     <th>
-                                                                                        筹集目标
+                                                                                        发起人
                                                                                     </th>
                                                                                 </tr>
                                                                             </thead>
@@ -95,7 +96,7 @@
                                                                                             {{ i.function_id }}
                                                                                         </td>
                                                                                         <td>
-                                                                                            ¥{{ i.crowd_funding_money }}
+                                                                                            {{ i.publisher }}
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
@@ -105,6 +106,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        {% endblock %}
                                                     </div>
                                                 </div>
                                             </div>

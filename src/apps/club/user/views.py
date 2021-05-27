@@ -105,6 +105,7 @@ def user_login():
     # 根据用户名在数据库比对用户信息的合法性
     cass_ls = [user_name]
     cql = "SELECT * FROM users.user WHERE user_name = %s;"
+    # cql = "select * from users.user where user_name in (%s);"
 
     # 判断用户是否存在
     if len(cass_session.execute(cql, cass_ls).all()) == 0:
