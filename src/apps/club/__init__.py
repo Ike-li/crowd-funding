@@ -34,6 +34,7 @@ def create_app():
     def base():
         return render_template('base.html')
 
-    # @app.route('')
-
+    @app.route('/user_base')
+    def user_base():
+        return render_template('user/user_base.html')
     return app

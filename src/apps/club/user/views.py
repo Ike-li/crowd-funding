@@ -78,13 +78,11 @@ def user_register():
 @user_bp.route('/user')
 @load_user
 def user_center():
-    print(session)
-    print(session['user_name'])
-    cass_ls = [session['user_name']]
-    cql = "SELECT * FROM users.user WHERE user_name = %s;"
-    data = cass_session.execute(cql, cass_ls).all()
-    print(type(data[0]))
-    return render_template('us=er_info.html', parameter=data[0])
+    ls = [session.get('user_name'), "已通过"]
+    cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s AND state = %s ALLOW FILTERING;"
+    rows = cass_session.execute(cql, ls)
+    functions = rows.all()
+    return render_template('user/user_info.html', args=functions, state="已通过")
 
 
 # 用户登录界面
@@ -192,8 +190,18 @@ def user_functions(state):
     ls = [session.get('user_name'), state]
     cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s AND state = %s ALLOW FILTERING;"
     data = cass_session.execute(cql, ls)
-    ls1 = data.all()
-    return render_template('user/user_functions.html', args=ls1, status=state)
+    functions = data.all()
+    if state == "已通过":
+        return render_template('user/user_functions_published.html', args=functions, state=state)
+    elif state == "审核中":
+        return render_template('user/user_functions_under_review.html', args=functions, state=state)
+    elif state == "未通过":
+        return render_template('user/user_functions_failed.html', args=functions, state=state)
+    elif state == "未审核":
+        return render_template('user/user_functions_not_reviewed.html', args=functions, state=state)
+    else:
+        # return render_template('404.html')
+        return "Failed"
 
 
 # 用户查看自己某一个已发布的 FR
@@ -216,3 +224,36 @@ def function_unpublished_one(function_id):
     data = cass_session.execute(cql, ls)
     ls1 = data.all()
     return render_template('user/user_unpublished_one.html', args=ls1)
+
+
+# 用户查看自己的打赏的任务
+@user_bp.route('/my_donations')
+@load_user
+def my_donations():
+    ls = [session.get('user_name')]
+    cql = "SELECT * FROM users.user_by_contribution WHERE user_name = %s;"
+    rows = cass_session.execute(cql, ls)
+    functions = rows.all()
+    return render_template('user/my_donations.html', args=functions, state="我的打赏")
+
+
+# 用户查看自己的收藏
+@user_bp.route('/my_collections')
+@load_user
+def my_collections():
+    ls = [session.get('user_name')]
+    cql = "SELECT * FROM users.user_by_collection WHERE user_name = %s;"
+    rows = cass_session.execute(cql, ls)
+    functions = rows.all()
+    return render_template('user/my_collections.html', args=functions, state="我的收藏")
+
+
+# 用户查看自己的评论
+@user_bp.route('/my_comments')
+@load_user
+def my_comments():
+    ls = [session.get('user_name')]
+    cql = "SELECT * FROM users.user_by_comment WHERE user_name = %s;"
+    rows = cass_session.execute(cql, ls)
+    functions = rows.all()
+    return render_template('user/my_comments.html', args=functions, state="我的评论")

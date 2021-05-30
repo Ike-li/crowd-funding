@@ -42,7 +42,7 @@ def admin_center():
     cql = "SELECT * FROM functions.functions_request_by_status WHERE state = '未审核';"
     data = cass_session.execute(cql)
     functions_request = data.all()
-    return render_template('admin/admin_info.html', args=functions_request)
+    return render_template('admin/admin_info.html', args=functions_request, state = "未审核")
 
 
 # 管理员登录界面

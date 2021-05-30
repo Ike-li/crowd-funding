@@ -160,26 +160,26 @@
 
                                             {% if user_name %}
                                                 <h5>
-                                                    {{ user_name }}
+                                                    <a href="{{ url_for('user.user_center') }}">{{ user_name }}</a>
                                                 </h5><span>-----------------------</span>
                                                 <ul class="dropdown">
                                                     <li>
-                                                        <a href="causes.html"><i class="icon-flag5"></i>我的项目</a>
+                                                        <a href="{{ url_for('user.user_center') }}"><i class="icon-flag5"></i>我的项目</a>
                                                     </li>
                                                     <li>
-                                                        <a href="saved.html"><i class="icon-comment"></i>我的评论</a>
+                                                        <a href="{{ url_for('user.my_comments') }}"><i class="icon-comment"></i>我的评论</a>
                                                     </li>
                                                     <li>
-                                                        <a href="my-donation.html"><i class="icon-money"></i>我的打赏</a>
+                                                        <a href="{{ url_for('user.my_donations') }}"><i class="icon-money"></i>我的打赏</a>
                                                     </li>
                                                     <li>
-                                                        <a href="donation.html"><i class="icon-ticket6"></i>我的收藏</a>
+                                                        <a href="{{ url_for('user.my_collections') }}"><i class="icon-ticket6"></i>我的收藏</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{ url_for('user.add_function') }}"><i class="icon-plus6"></i>创建新项目</a>
                                                     </li>
                                                     <li>
-                                                        <a href="profilesetting.html"><i class="icon-profile-male"></i>个人资料设置</a>
+                                                        <a href="{{ url_for('user.user_center') }}"><i class="icon-profile-male"></i>个人资料设置</a>
                                                     </li>
                                                 </ul><a class="sign-btn" href="{{ url_for("user.user_logout") }}"><i class="icon-logout"></i>登出</a>
                                             {% elif admin_name %}

@@ -4,7 +4,7 @@
 
         {% block head %}
             {% block title %}
-                <title>管理员中心</title>
+                <title>用户中心</title>
             {% endblock %}
             {{ super()}}
         {% endblock %}
@@ -33,25 +33,29 @@
                                                         {% block profile_block %}
                                                         <div class="profile-block">
                                                             <ul class="scroll-nav">
-                                                                <li class="active">
-                                                                    <a href="{{ url_for('admin.functions_state', state = "未审核") }}"><i class="icon-circle-o-notch"></i>待审核任务</a>
+                                                                <li>
+                                                                    <a href="/user_functions/已通过"><i class="icon-save"></i>已发布</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="{{ url_for('admin.functions_state', state = "审核中") }}"><i class="icon-save"></i>审核中任务</a>
+                                                                    <a href="/user_functions/未审核"><i class="icon-money"></i>未审核</a>
+                                                                </li>
+                                                                 <li>
+                                                                    <a href="/user_functions/审核中"><i class="icon-money"></i>审核中</a>
+                                                                </li>
+                                                                 <li>
+                                                                    <a href="/user_functions/未通过"><i class="icon-money"></i>未通过</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="{{ url_for('admin.functions_state', state = "未通过") }}"><i class="icon-money"></i>未通过任务</a>
+                                                                    <a href="{{ url_for('user.my_donations') }}"><i class="icon-gear"></i>我的打赏</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="{{ url_for('admin.functions_state', state = "已通过") }}"><i class="icon-gear"></i>众筹中（已审核）任务</a>
+                                                                    <a href="{{ url_for('user.my_collections') }}"><i class="icon-gear"></i>我的收藏</a>
                                                                 </li>
                                                                 <li>
-                                                                    <a href="create-new-cause.html"><i class="icon-star-o"></i>收藏统计</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="donation.html"><i class="icon-sign-in"></i>用户管理</a>
+                                                                    <a href="{{ url_for('user.my_comments') }}"><i class="icon-sign-in"></i>我的评论</a>
                                                                 </li>
                                                             </ul>
+                                                            {% block user_functions %}
                                                             <div class="cs-profile-area">
                                                                 <div class="cs-title no-border">
                                                                     <h4>
@@ -105,6 +109,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            {% endblock %}
                                                         </div>
                                                         {% endblock %}
                                                     </div>
