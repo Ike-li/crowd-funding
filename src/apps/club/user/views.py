@@ -163,6 +163,7 @@ def user_add_function():
     # 添加 FR 到 functions.functions_request
     ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content, function_cover,
           function_introduction, function_title, function_type, publisher, state]
+    print(ls)
     cql = "INSERT INTO functions.functions_request (function_id, comments, created_at, crowd_funding_days, " \
           "crowd_funding_money, function_content, function_cover, function_introduction, function_title, " \
           "function_type, publisher, state) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
@@ -180,7 +181,7 @@ def user_add_function():
            "state) VALUES (%s,%s,%s,%s,%s,%s);"
     cass_session.execute(cql2, ls2)
     flash("添加任务成功！")
-    return render_template('index1.html')
+    return render_template('index.html')
 
 
 # 用户查看自己所有 已发布 / 未审核 / 审核中 / 未通过的 FR

@@ -42,7 +42,7 @@ def admin_center():
     cql = "SELECT * FROM functions.functions_request_by_status WHERE state = '未审核';"
     data = cass_session.execute(cql)
     functions_request = data.all()
-    return render_template('admin/admin_info.html', args=functions_request, state = "未审核")
+    return render_template('admin/admin_info.html', args=functions_request, state="未审核")
 
 
 # 管理员登录界面
@@ -122,6 +122,7 @@ def functions_state():
         # return render_template('404.html')
         return "Failed"
 
+
 # 管理员查看某请求任务的详细信息
 @admin_bp.route('/<function_id>', methods=['GET'])
 @load_admin
@@ -129,8 +130,8 @@ def function(function_id):
     ls = [uuid.UUID(function_id)]
     cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
     data = cass_session.execute(cql, ls)
-    ls1 = data.all()
-    return render_template('admin/admin_update_functions.html', parameter=ls1)
+    functions_request = data.all()
+    return render_template('admin/admin_functions_update.html', args=functions_request)
 
 
 # 管理员更新某功能的状态
