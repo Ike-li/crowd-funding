@@ -143,16 +143,15 @@ def add_function():
 @user_bp.route('/add_function', methods=['POST'])
 @load_user
 def user_add_function():
+    function_cover = request.form.get('function-cover')  # 封面
     function_id = cassandra.util.uuid_from_time(time.time())  # id
     function_content = request.form.get('content')
-    comments = request.form.get('comments')
     created_at = datetime.now()  # 创建时间
     function_type = request.form.get('type')  # 类型
     crowd_funding_days = int(request.form.get('days'))  # 众筹时间
     crowd_funding_money = int(request.form.get('money'))  # 众筹金额
     function_introduction = request.form.get('introduction')  # 简介
     function_title = request.form.get('title')  # 标题
-    function_cover = request.form.get('cover')  # 封面
     # country = request.form.get('country')
     # province = request.form.get('province')
     # city = request.form.get('city')
@@ -160,6 +159,7 @@ def user_add_function():
     # code = request.form.get('code')
     publisher = session.get('user_name')
     state = "未审核"
+    comments = None
     # 添加 FR 到 functions.functions_request
     ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content, function_cover,
           function_introduction, function_title, function_type, publisher, state]

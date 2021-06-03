@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 <!DOCTYPE html>
 <html lang="en">
-    {% block title %}
-        创建一个新项目
-    {% endblock %}
+
+{% block title %}
+    创建一个新项目
+{% endblock %}
 {% block body %}
     {% block header %}
         {{ super() }}
@@ -19,11 +20,12 @@
                             <div class="section-fullwidth col-lg-12">
                                 <div class="cs-content-holder">
                                     <div class="row">
-                                        <div class="cause-holder">
+                                        <div class="cause-holder" style="width: 100%">
                                             <div class="col-lg-12">
                                                 <div class="cs-auther">
                                                     <figure>
-                                                        <a href="#"><img src="../../static/assets/images/user-image.png" alt="#"></a>
+                                                        <a href="#"><img src="../../static/assets/images/user-image.png"
+                                                                         alt="#"></a>
                                                     </figure>
                                                     <div class="text">
                                                         <h3>
@@ -44,7 +46,8 @@
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="profile-block">
-                                                    <form action="{{ url_for('user.user_add_function') }}" method="post">
+                                                    <form action="{{ url_for('user.user_add_function') }}"
+                                                          method="post">
                                                         <div class="cs-profile-area">
                                                             <div class="cs-title no-border">
                                                                 <h3>
@@ -54,167 +57,69 @@
                                                             <div class="cs-profile-holder">
                                                                 <div class="gallery-area">
                                                                     <ul class="cs-element-list has-border wout-label">
+
                                                                         <li>
-                                                                            <div class="fields-area">
-                                                                                <div class="field-col col-md-12">
-                                                                                    <ul class="galleryupload">
-                                                                                        <li class="featured-image image-1">
-                                                                                            <div class="upload-file-container">
-                                                                                                <img src="../../static/assets/extra-images/gallry1.jpg"
-                                                                                                     alt="#"><a
-                                                                                                    title="Delete image"
-                                                                                                    class="delete"
-                                                                                                    data-id="1"
-                                                                                                    href="javascript:;"><i
-                                                                                                    class="icon-times"></i></a>
-                                                                                            </div>
-                                                                                        </li>
-                                                                                        <li class="gallery-thumb">
-                                                                                            <div id="campaigs_images_container">
-                                                                                                <ul class="campaigs_images">
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry2.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry3.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry4.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry5.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry6.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry7.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <img src="../../static/assets/extra-images/gallry8.jpg"
-                                                                                                             alt="#"><a
-                                                                                                            title="Delete image"
-                                                                                                            class="delete"
-                                                                                                            data-id="2"
-                                                                                                            href="javascript:;"><i
-                                                                                                            class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                    <li class="image-2">
-                                                                                                        <figure>
-                                                                                                            <img src="../../static/assets/extra-images/gallry9.jpg"
-                                                                                                                 alt="#">
-                                                                                                            <figcaption>
-                                                                                                                <input type="file"
-                                                                                                                       id="browse"
-                                                                                                                       name="fileupload"
-                                                                                                                       style="display: none"
-                                                                                                                       onchange="Handlechange();"><input
-                                                                                                                    type="button"
-                                                                                                                    value="Upload More"
-                                                                                                                    id="fakeBrowse"
-                                                                                                                    onclick="HandleBrowseClick();">
-                                                                                                            </figcaption>
-                                                                                                        </figure>
-                                                                                                        <a title="Delete image"
-                                                                                                           class="delete"
-                                                                                                           data-id="2"
-                                                                                                           href="javascript:;"><i
-                                                                                                                class="icon-times"></i></a>
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                        </li>
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
+                                                                            <label>活动封面</label>
+                                                                            <span class="char-remain">通常来说一个简洁的标题更加吸引人</span>
+                                                                            <input type="file" name="function-cover" id="ipt" required="required" placeholder="建议">
+                                                                            <img src="" alt="" id="img">
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                                 <ul class="cs-element-list has-border">
                                                                     <li>
-                                                                        <label>项目标题</label>
+                                                                        <label>活动标题</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <input type="text"><span
-                                                                                    class="char-remain">通常来说一个简洁的标题更加吸引人</span>
+                                                                                <input type="text" name="title" required="required ">
+                                                                                <span class="char-remain">通常来说一个简洁的标题更加吸引人</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
                                                                     <li>
-                                                                        <label>项目简介</label>
+                                                                        <label>活动简介</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <textarea></textarea>
+                                                                                {#                                                                                <textarea></textarea>#}
+                                                                                <input type="text" name="introduction" required="required">
                                                                             </div>
                                                                         </div>
                                                                     </li>
                                                                     <li class="multiselect-holder">
-                                                                        <label>项目分类</label>
+                                                                        <label>活动分类</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-6">
-                                                                                <select id="categories"
-                                                                                        class="multiselect"
-                                                                                        multiple="multiple"
-                                                                                        name="countries[]">
-                                                                                    <option value="AFG">
-                                                                                        Afghanistan
+                                                                                <select name="type">
+                                                                                    <option value="Audio">Audio</option>
+                                                                                    <option value="Art">Art</option>
+                                                                                    <option value="Music">Music</option>
+                                                                                    <option value="Photography">
+                                                                                        Photography
                                                                                     </option>
-                                                                                    <option value="ALB">
-                                                                                        Albania
+                                                                                    <option value="Culture">Culture
                                                                                     </option>
-                                                                                    <option value="DZA">
-                                                                                        Algeria
+                                                                                    <option value="Environment">
+                                                                                        Environment
                                                                                     </option>
-                                                                                    <option value="AND">
-                                                                                        Andorra
+                                                                                    <option value="Education">
+                                                                                        Education
                                                                                     </option>
-                                                                                    <option value="ARG">
-                                                                                        Argentina
+                                                                                    <option value="Human Rights">Human
+                                                                                        Rights
                                                                                     </option>
-                                                                                    <option value="ARM">
-                                                                                        Armenia
+                                                                                    <option value="Wellness">Wellness
                                                                                     </option>
-                                                                                    <option value="ABW">
-                                                                                        Aruba
+                                                                                    <option value="Writing & Publishing">
+                                                                                        Writing & Publishing
                                                                                     </option>
-                                                                                    <option value="AUS">
-                                                                                        Australia
+                                                                                    <option value="Transportation">
+                                                                                        Transportation
+                                                                                    </option>
+                                                                                    <option value="Food & Beverages">
+                                                                                        Food & Beverages
+                                                                                    </option>
+                                                                                    <option value="Fashion & Wearables">
+                                                                                        Fashion & Wearables
                                                                                     </option>
                                                                                 </select>
                                                                             </div>
@@ -226,7 +131,7 @@
                                                                         <label>需要众筹的金额</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-6">
-                                                                                <input type="text">
+                                                                                <input type="number" name="money">
                                                                             </div>
                                                                             <div class="field-col col-md-2">
                                                                                 <div class="select-holder">
@@ -240,46 +145,84 @@
                                                                         </div>
                                                                     </li>
                                                                     <li>
-                                                                        <label>截止日期</label>
+                                                                        <label>需要众筹的时间</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-2">
-                                                                                <input type="text" placeholder="D D">
+                                                                                <input type="number" name="days"
+                                                                                       placeholder="输入整数天">
                                                                             </div>
-                                                                            <div class="field-col col-md-2">
-                                                                                <input type="text" placeholder="M M">
-                                                                            </div>
-                                                                            <div class="field-col col-md-3">
-                                                                                <input type="text"
-                                                                                       placeholder="Y Y Y Y">
-                                                                            </div>
+                                                                            {#                                                                            <div class="field-col col-md-2">#}
+                                                                            {#                                                                                <input type="text" placeholder="M M">#}
+                                                                            {#                                                                            </div>#}
+                                                                            {#                                                                            <div class="field-col col-md-3">#}
+                                                                            {#                                                                                <input type="text"#}
+                                                                            {#                                                                                       placeholder="Y Y Y Y">#}
+                                                                            {#                                                                            </div>#}
                                                                         </div>
                                                                     </li>
                                                                     <li>
-                                                                        <label>Ad Tags</label>
+                                                                        <label>活动内容</label>
                                                                         <div class="fields-area">
-                                                                            <div class="field-col col-md-6">
-                                                                                <span class="icon-input"><a href="#"
-                                                                                                            id="csload_list"><i
-                                                                                        class="icon-plus3"></i></a><input
-                                                                                        id="csappend"
-                                                                                        placeholder="Type text and Press Enter"
-                                                                                        type="text" class="text-input"></span>
-                                                                                <ul class="cs-tags-selection"></ul>
+                                                                            <div class="field-col col-md-12">
+                                                                                <textarea name="content" id="editor"
+                                                                                          required="required">
+                                                                                    <h2>The three greatest things you learn from traveling</h2>
+              <p>Like all the great things on earth traveling teaches us by example. Here are some of the most precious lessons I’ve learned over the years of traveling.</p>
+              <figure class="image image-style-align-right image_resized illustration" style="width:50%"><img alt="Three Monks walking on ancient temple." src="/assets/images/bg/volcano-8967c4575e.jpg">
+                <figcaption>Leaving your comfort zone might lead you to such beautiful sceneries like this one.</figcaption>
+              </figure>
+              <h3>Appreciation of diversity</h3>
+              <p>Getting used to an entirely different culture can be challenging. While it’s also nice to learn about cultures online or from books, nothing comes close to experiencing cultural diversity in person. You learn to appreciate each and every single one of the differences while you become more culturally fluid.</p>
+              <blockquote>
+                <p>The real voyage of discovery consists not in seeking new landscapes, but having new eyes.</p>
+                <p><strong>Marcel Proust</strong></p>
+              </blockquote>
+              <h3>Improvisation</h3>
+              <p>Life doesn't allow us to execute every single plan perfectly. This especially seems to be the case when you travel. You plan it down to every minute with a big checklist; but when it comes to executing it, something always comes up and you’re left with your improvising skills. You learn to adapt as you go. Here’s how my travel checklist looks now:</p>
+              <ul class="todo-list">
+                <li>
+                  <label class="todo-list__label">
+                    <input type="checkbox" checked="checked"><span class="todo-list__label__description">buy the ticket</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="todo-list__label">
+                    <input type="checkbox" checked="checked"><span class="todo-list__label__description">start your adventure</span>
+                  </label>
+                </li>
+              </ul>
+              <h3>Confidence</h3>
+              <p>Going to a new place can be quite terrifying. While change and uncertainty makes us scared, traveling teaches us how ridiculous it is to be afraid of something before it happens. The moment you face your fear and see there was nothing to be afraid of, is the moment you discover bliss.</p>
+                                                                                </textarea>
                                                                             </div>
                                                                         </div>
                                                                     </li>
+                                                                    {#                                                                    <li>#}
+                                                                    {#                                                                        <label>Ad Tags</label>#}
+                                                                    {#                                                                        <div class="fields-area">#}
+                                                                    {#                                                                            <div class="field-col col-md-6">#}
+                                                                    {#                                                                                <span class="icon-input"><a href="#"#}
+                                                                    {#                                                                                                            id="csload_list"><i#}
+                                                                    {#                                                                                        class="icon-plus3"></i></a><input#}
+                                                                    {#                                                                                        id="csappend"#}
+                                                                    {#                                                                                        placeholder="Type text and Press Enter"#}
+                                                                    {#                                                                                        type="text" class="text-input"></span>#}
+                                                                    {#                                                                                <ul class="cs-tags-selection"></ul>#}
+                                                                    {#                                                                            </div>#}
+                                                                    {#                                                                        </div>#}
+                                                                    {#                                                                    </li>#}
                                                                 </ul>
-                                                                <ul class="cs-element-list has-border paypal">
-                                                                    <li>
-                                                                        <label>Paypal Setting</label>
-                                                                        <div class="fields-area">
-                                                                            <div class="field-col col-md-6">
-                                                                                <input type="email"><span
-                                                                                    class="char-remain">Strong orca harshly exuberantly oh bird wherever</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
+                                                                {#                                                                <ul class="cs-element-list has-border paypal">#}
+                                                                {#                                                                    <li>#}
+                                                                {#                                                                        <label>Paypal Setting</label>#}
+                                                                {#                                                                        <div class="fields-area">#}
+                                                                {#                                                                            <div class="field-col col-md-6">#}
+                                                                {#                                                                                <input type="email"><span#}
+                                                                {#                                                                                    class="char-remain">Strong orca harshly exuberantly oh bird wherever</span>#}
+                                                                {#                                                                            </div>#}
+                                                                {#                                                                        </div>#}
+                                                                {#                                                                    </li>#}
+                                                                {#                                                                </ul>#}
                                                                 <ul class="cs-element-list term-condition-area">
                                                                     <li>
                                                                         <label>Terms &<br>
@@ -317,7 +260,7 @@
                                                                             <div class="field-col col-md-4">
                                                                                 <input class="csbg-color cs-btn"
                                                                                        type="submit"
-                                                                                       value="Create new Cause">
+                                                                                       value="创建新项目">
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -339,41 +282,41 @@
         </div>
     </main><!--// Main Content //--><!--// Footer Widget //-->
 
-{#</div><!-- jQuery (necessary JavaScript) -->#}
-{#<script src="../../static/assets/scripts/jquery.js"></script>#}
-{#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>#}
-{#<script src="../../static/assets/scripts/bootstrap.min.js"></script>#}
-{#<script src="../../static/assets/scripts/modernizr.js"></script>#}
-{#<script src="../../static/assets/scripts/jquery.nanoscroller.js"></script>#}
-{#<script src="../../static/assets/scripts/ui.multiselect.js"></script>#}
-{#<script src="../../static/assets/scripts/functions.js"></script>#}
-{#<script type="text/javascript">#}
-{#    $(function () {#}
-{#        $(".multiselect").multiselect();#}
-{#    });#}
-{#</script>#}
-{#<script>#}
-{#    $(document).ready(function () {#}
-{#        $('#csload_list').click(function () {#}
-{#            var append = $('#csappend').val();#}
-{#            $('ul.cs-tags-selection').append('<li class="alert alert-warning"><a data-dismiss="alert" class="close" href="#">×<\/a><span>' + append + '<\/span><\/li>');#}
-{#            return false;#}
-{#        });#}
-{#    });#}
-{#</script>#}
-{#<script>#}
-{#    function HandleBrowseClick() {#}
-{#        var fileinput = document.getElementById("browse");#}
-{#        fileinput.click();#}
-{#    }#}
-{##}
-{#    function Handlechange() {#}
-{#        var fileinput = document.getElementById("browse");#}
-{#        var textinput = document.getElementById("filename");#}
-{#        textinput.value = fileinput.value;#}
-{#    }#}
-{#</script>#}
-{#</body>#}
+    {#</div><!-- jQuery (necessary JavaScript) -->#}
+    {#<script src="../../static/assets/scripts/jquery.js"></script>#}
+    {#<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/jquery-ui.min.js"></script>#}
+    {#<script src="../../static/assets/scripts/bootstrap.min.js"></script>#}
+    {#<script src="../../static/assets/scripts/modernizr.js"></script>#}
+    {#<script src="../../static/assets/scripts/jquery.nanoscroller.js"></script>#}
+    {#<script src="../../static/assets/scripts/ui.multiselect.js"></script>#}
+    {#<script src="../../static/assets/scripts/functions.js"></script>#}
+    {#<script type="text/javascript">#}
+    {#    $(function () {#}
+    {#        $(".multiselect").multiselect();#}
+    {#    });#}
+    {#</script>#}
+    {#<script>#}
+    {#    $(document).ready(function () {#}
+    {#        $('#csload_list').click(function () {#}
+    {#            var append = $('#csappend').val();#}
+    {#            $('ul.cs-tags-selection').append('<li class="alert alert-warning"><a data-dismiss="alert" class="close" href="#">×<\/a><span>' + append + '<\/span><\/li>');#}
+    {#            return false;#}
+    {#        });#}
+    {#    });#}
+    {#</script>#}
+    {#<script>#}
+    {#    function HandleBrowseClick() {#}
+    {#        var fileinput = document.getElementById("browse");#}
+    {#        fileinput.click();#}
+    {#    }#}
+    {##}
+    {#    function Handlechange() {#}
+    {#        var fileinput = document.getElementById("browse");#}
+    {#        var textinput = document.getElementById("filename");#}
+    {#        textinput.value = fileinput.value;#}
+    {#    }#}
+    {#</script>#}
+    {#</body>#}
 
     {% block footer %}
         {{ super() }}
@@ -386,6 +329,38 @@
     {% block script %}
         {{ super() }}
     {% endblock %}
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+
+    {#    图片上传js#}
+    <script>
+		        ipt.onchange=function(){
+		            img.src=URL.createObjectURL(this.files[0])
+		            console.log(this.files)
+
+		        }
+
+    </script>
+
+    <script>
+			function printFile(file) {
+			  var reader = new FileReader();
+			  reader.onload = function(evt) {
+			    console.log(evt.target.result);
+			  };
+			  reader.readAsText(file);
+			}
+
+	</script>
+    {#    图片上传js#}
 
 {% endblock %}
 </html>
