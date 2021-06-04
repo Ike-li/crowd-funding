@@ -10,6 +10,9 @@ from src.apps.settings import cass_session
 
 user_bp = Blueprint('user', __name__)
 
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+UPLOAD_FOLDER = 'src/apps/static/user_images'
+
 
 # 加载用户 session 的装饰器，检查需要用到与用户 session 相关的视图函数
 def load_user(func):
@@ -20,6 +23,12 @@ def load_user(func):
         return func(*args, **kwargs)
 
     return inner
+
+
+# 允许的图片后缀格式
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 # 从 session 获取 user_name
