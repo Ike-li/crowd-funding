@@ -1,10 +1,12 @@
 import functools
+import os
 import uuid
 import time
 from datetime import datetime
 
 import cassandra.util
 from flask import Blueprint, session, render_template, request, flash, redirect, url_for
+from werkzeug.utils import secure_filename
 
 from src.apps.settings import cass_session
 
@@ -152,7 +154,17 @@ def add_function():
 @user_bp.route('/add_function', methods=['POST'])
 @load_user
 def user_add_function():
-    function_cover = request.form.get('function-cover')  # 封面
+    new_file_name = None
+    if request.method == 'POST':
+        file = request.files['function-cover']
+        if not (file and allowed_file(file.filename)):
+            flash("图片上传不符合规则")
+            return render_template('user/create_new_function.html')
+        base_path = os.path.dirname(__file__)  # 当前文件所在路径
+        new_file_name = f"{cassandra.util.uuid_from_time(time.time())}.jpg"
+        upload_path = os.path.join(base_path, '../../static/user_images', secure_filename(new_file_name))  # 重命名图片名
+        file.save(upload_path)
+    function_cover = '../../static/user_images' + new_file_name  # 封面路径
     function_id = cassandra.util.uuid_from_time(time.time())  # id
     function_content = request.form.get('content')
     created_at = datetime.now()  # 创建时间
@@ -161,11 +173,6 @@ def user_add_function():
     crowd_funding_money = int(request.form.get('money'))  # 众筹金额
     function_introduction = request.form.get('introduction')  # 简介
     function_title = request.form.get('title')  # 标题
-    # country = request.form.get('country')
-    # province = request.form.get('province')
-    # city = request.form.get('city')
-    # street = request.form.get('street')
-    # code = request.form.get('code')
     publisher = session.get('user_name')
     state = "未审核"
     comments = None

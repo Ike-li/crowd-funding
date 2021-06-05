@@ -9,7 +9,15 @@
     {% block header %}
         {{ super() }}
     {% endblock %}
-
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <!-- Main Content -->
     <main id="main-content">
         <div class="main-section">
@@ -46,8 +54,7 @@
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="profile-block">
-                                                    <form action="{{ url_for('user.user_add_function') }}"
-                                                          method="post">
+                                                    <form action="{{ url_for('user.user_add_function') }}" method="post" enctype='multipart/form-data'>
                                                         <div class="cs-profile-area">
                                                             <div class="cs-title no-border">
                                                                 <h3>
@@ -61,7 +68,7 @@
                                                                         <li>
                                                                             <label>活动封面</label>
                                                                             <input type="file" name="function-cover" id="ipt" required="required" placeholder="建议">
-                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面</span>
+                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面，图片格式只能为：'png', 'jpg', 'jpeg'</span>
                                                                             <img src="" alt="" id="img">
                                                                         </li>
                                                                     </ul>
