@@ -225,22 +225,22 @@ def user_functions(state):
 @user_bp.route('/function_published/<function_id>')
 @load_user
 def function_published_one(function_id):
-    ls = [uuid.UUID(function_id)]
-    cql = "SELECT * FROM functions.functions WHERE function_id = %s;"
-    data = cass_session.execute(cql, ls)
-    ls1 = data.all()
-    return render_template('user/user_published_one.html', args=ls1)
+    function_published_id = [uuid.UUID(function_id)]
+    function_published_cql = "SELECT * FROM functions.functions WHERE function_id = %s;"
+    function_published_data = cass_session.execute(function_published_cql, function_published_id)
+    function_published_details = function_published_data.all()
+    return render_template('user/user_function_published_details.html', args=function_published_details)
 
 
 # 用户查查看自己某一个 未审核 / 审核中 / 未通过 的 FR
 @user_bp.route('/function_unpublished/<function_id>')
 @load_user
 def function_unpublished_one(function_id):
-    ls = [uuid.UUID(function_id)]
-    cql = "SELECT * FROM functions.functions_request WHERE function_id = %s; "
-    data = cass_session.execute(cql, ls)
-    ls1 = data.all()
-    return render_template('user/user_unpublished_one.html', args=ls1)
+    function_unpublished_id = [uuid.UUID(function_id)]
+    function_unpublished_cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
+    function_unpublished_data = cass_session.execute(function_unpublished_cql, function_unpublished_id)
+    function_unpublished_details = function_unpublished_data.all()
+    return render_template('user/user_function_unpublished_details.html', args=function_unpublished_details)
 
 
 # 用户查看自己的打赏的任务

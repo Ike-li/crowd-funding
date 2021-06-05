@@ -34,7 +34,7 @@
                                                         <div class="profile-block">
                                                             <ul class="scroll-nav">
                                                                 <li>
-                                                                    <a href="/user_functions/已通过"><i class="icon-save"></i>已发布</a>
+                                                                    <a href="/user_functions/已通过"><i class="icon-save"></i>众筹中</a>
                                                                 </li>
                                                                 <li>
                                                                     <a href="/user_functions/未审核"><i class="icon-money"></i>未审核</a>
@@ -53,6 +53,12 @@
                                                                 </li>
                                                                 <li>
                                                                     <a href="{{ url_for('user.my_comments') }}"><i class="icon-sign-in"></i>我的评论</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{ url_for('user.my_comments') }}"><i class="icon-sign-in"></i>众筹成功</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="{{ url_for('user.my_comments') }}"><i class="icon-sign-in"></i>众筹失败</a>
                                                                 </li>
                                                             </ul>
                                                             {% block user_functions %}
