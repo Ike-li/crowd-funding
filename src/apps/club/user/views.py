@@ -276,9 +276,9 @@ def my_comments():
     return render_template('user/my_comments.html', args=functions, state="我的评论")
 
 
-# 主页 function 模糊搜索
-@user_bp.route('/search_function')
-def search_function():
+# 主页  模糊搜索
+@user_bp.route('/search_function', methods=['POST'])
+def search_functions():
     function_title = request.form.get('function_title_key')
     function_title_list = [function_title]
     function_title_cql = "SELECT * FROM functions.functions WHERE function_title LIKE %s LIMIT 9;"
@@ -291,12 +291,85 @@ def search_function():
 @user_bp.route('/search_type/<function_type>')
 def search_type(function_type):
     function_type_list = [function_type]
-    function_type_cql = "SELECT * FROM functions.functions_by_type WHERE function_type = %s;"
+    function_type_cql = "SELECT * FROM functions.functions WHERE function_type = %s;"
     functions_rows = cass_session.execute(function_type_cql, function_type_list)
     functions = functions_rows.all()
-    return render_template('functions_by_type.html', args=functions)
+    return render_template('index.html', functions=functions)
+
 
 # 主页时间搜素
-@user_bp.route('/search_time/date')
+@user_bp.route('/search_date', methods=['POST'])
 def search_time():
-    pass
+    search_date = request.form.get('search_date')
+    function_type_list = [search_date]
+    function_type_cql = "SELECT * FROM functions.functions WHERE created_at_date = %s;"
+    functions_rows = cass_session.execute(function_type_cql, function_type_list)
+    functions = functions_rows.all()
+    return render_template('index.html', functions=functions, search_date=search_date)
+
+
+# 用户收藏某一个 Function
+@user_bp.route('/collect/<function_id_str>')
+@load_user
+def collect_function(function_id_str):
+    collection_by_user = session['user_name']
+    # 查询出 FR 需要插入的信息
+    function_id_uuid = uuid.UUID(function_id_str)
+
+    # 判断用户是否已收藏 FR
+    collection_query_list = [collection_by_user, function_id_uuid]
+    collection_query_cql = "SELECT * " \
+                           "FROM users.user_by_collection " \
+                           "WHERE user_name = %s " \
+                           "AND function_id = %s;"
+    function_rows = cass_session.execute(collection_query_cql, collection_query_list)
+    if len(function_rows.all()) != 0:
+        flash("您已经收藏过该 项目")
+        return redirect(url_for('index'))
+
+    function_query_list = [function_id_uuid]
+    function_query_cql = "SELECT function_type,function_title,created_at,state " \
+                         "FROM functions.functions " \
+                         "WHERE function_id = %s;"
+    function_rows = cass_session.execute(function_query_cql, function_query_list)
+    function_data = function_rows.all()
+    function_type = function_data[0].get('function_type')
+    function_title = function_data[0].get('function_title')
+    created_at = function_data[0].get('created_at')
+    state = function_data[0].get('state')
+
+    # 更新表 functions.functions_collections_counter 的记录
+    functions_collections_counter_list = [function_id_uuid, function_title]
+    functions_collections_counter_cql = "UPDATE functions.functions_collections_counter " \
+                                        "SET collections = collections +1 " \
+                                        "WHERE function_id = %s AND function_title = %s;"
+    cass_session.execute(functions_collections_counter_cql, functions_collections_counter_list)
+
+    # 更新表 functions.functions_collections 的记录
+    functions_collections_list = [function_id_uuid, collection_by_user, created_at, function_title, function_type]
+    functions_collections_cql = "INSERT INTO functions.functions_collections (function_id, collection_by_user, " \
+                                "created_at, function_title, function_type) " \
+                                "VALUES (%s, %s, %s, %s, %s);"
+    cass_session.execute(functions_collections_cql, functions_collections_list)
+
+    # 更新表 users.user_by_collection 的记录
+    user_by_collection_list = [collection_by_user, function_id_uuid, function_title, function_type, state]
+    user_by_collection_cql = "INSERT INTO users.user_by_collection (user_name, function_id, function_title, " \
+                             "function_type, state) " \
+                             "VALUES (%s, %s, %s, %s, %s);"
+    cass_session.execute(user_by_collection_cql, user_by_collection_list)
+    flash("收藏成功")
+    return redirect(url_for('user.my_collections'))
+
+
+# 查看某一个已发布的 FR
+@user_bp.route('/function_published/<function_id_str>')
+def function_publisher(function_id_str):
+    function_id_uuid = uuid.UUID(function_id_str)
+    function_published_query_list = [function_id_uuid]
+    function_published_query_cql = "SELECT * " \
+                                   "FROM functions.functions " \
+                                   "WHERE function_id = %s;"
+    function_rows = cass_session.execute(function_published_query_cql, function_published_query_list)
+    function_date = function_rows.all()
+    return render_template('function_published_details.html', function=function_date)

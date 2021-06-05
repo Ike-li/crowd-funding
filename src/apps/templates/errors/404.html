@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+{% block body %}
+    {% block error_404 %}
+        <!-- Main Content -->
+        <main id="main-content">
+            <div class="main-section">
+                <div class="page-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="section-fullwidth col-lg-12">
+                                <div class="cs-content-holder">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="page-not-found">
+                                                <div class="cs-icon">
+                                                    <img src="../../static/assets/extra-images/error-img.png" alt="#">
+                                                </div>
+                                                <div class="cs-content404">
+                                                    <h2>
+                                                        哦，你要找的页面可能 已删除<br>
+                                                    </h2>
+                                                    <div class="desc">
+                                                        <div class="site-maps-links">
+                                                            <h6>
+                                                                返回主页
+                                                            </h6>
+                                                            <ul>
+                                                                <li>
+                                                                    <a href="{{ url_for('index') }}">Home</a>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main><!--// Main Content //-->
+    {% endblock %}
+{% endblock %}

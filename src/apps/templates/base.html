@@ -49,80 +49,34 @@
                                     <li>
                                         <a href="/">首页</a>
                                     </li>
-                                    <li>
-                                        <a href="creators.html">发布者</a>
-                                    </li>
-                                    <li>
-                                        <a href="supporters.html">支持者</a>
-                                    </li>
+{#                                    后续功能#}
 {#                                    <li>#}
-{#                                        <a href="#">Pages</a>#}
-{#                                        <ul class="sub-dropdown">#}
-{#                                            <li>#}
-{#                                                <a href="about.html">About us</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="faq.html">FAQ’s</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="contect.html">Contect</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="sign.html">Create an Account</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="sign.html">Sign In</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="404.html">404 Page</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="under.html">under-construction</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="terms.html">Terms & Conditions</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="pricing.html">Price & Packges</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="services.html">Services</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="site-map.html">Site Map</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="result.html">Result</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="donate.html">Donate</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="user-detail2.html">user detail2</a>#}
-{#                                            </li>#}
-{#                                        </ul>#}
+{#                                        <a href="creators.html">发布者</a>#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        <a href="supporters.html">支持者</a>#}
 {#                                    </li>#}
                                     <li>
+                                        <a href="#">FAQ's</a>
+                                    </li>
+                                    <li>
                                         <a href="#">新闻</a>
-{#                                        <ul class="sub-dropdown">#}
-{#                                            <li>#}
-{#                                                <a href="bloglrag.html">News Listing</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="blogmedium.html">News Medium</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="blogdetail.html">News Detail</a>#}
-{#                                            </li>#}
-{#                                        </ul>#}
+                                        <ul class="sub-dropdown">
+                                            <li>
+                                                <a href="bloglrag.html">新消息</a>
+                                            </li>
+                                            <li>
+                                                <a href="blogmedium.html">公告</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                             </nav>
                         </div>
                         <div class="right-side">
                             <div class="cs-search-block">
-                                <form>
-                                    <input type="text" id="s" name="s" value="项目搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
+                                <form action="{{ url_for('user.search_functions') }}" method="post">
+                                    <input type="text" id="s" name="function_title_key" value="Search Project" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
                                 </form>
                             </div>
 {#                            <div class="cs-search-block">#}
@@ -197,7 +151,7 @@
                                         <h2>
                                             随时随地探索项目！
                                         </h2>
-                                        <div class="spreator5"></div><span>就像您一样，使用Razoo的人们创建了90,000多个筹款网站，并为他们关心的事业捐款超过2.5亿美元<br>
+                                        <div class="spreator5"></div><span>为他们关心的事业捐款，创意的实现需要发起人和支持者共同努力<br>
                                         </span><a href="#" class="explore-btn cs-bgcolor">探索活动</a>
                                     </div>
                                 </figcaption>
@@ -211,7 +165,7 @@
                                         <h2>
                                             随时随地探索项目！
                                         </h2>
-                                        <div class="spreator5"></div><span>就像您一样，使用Razoo的人们创建了90,000多个筹款网站，并为他们关心的事业捐款超过2.5亿美元<br>
+                                        <div class="spreator5"></div><span>为他们关心的事业捐款，创意的实现需要发起人和支持者共同努力<br>
                                         </span><a href="#" class="explore-btn cs-bgcolor">探索活动</a>
                                     </div>
                                 </figcaption>
@@ -345,12 +299,29 @@
                                                         <h4>
                                                             <i class="icon-globe4"></i>时间检索
                                                         </h4>
-                                                    </div>
-                                                    <ul class="menu">
-                                                        <form>
-                                                            <input type="text" id="s" name="s" value="时间搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
+                                                        <form action="{{ url_for('user.search_time') }}"  method="post">
+                                                            <input type="date" name="search_date" id="datetime">
+                                                            <p name="accept" style="font-size: 2px;color: #6f7c8e;margin-top: 5px;margin-left: 2px">
+                                                                当前选择时间：{{ search_date}}</p>
+                                                            <input type="submit" value="提交" style="margin-top: 50px">
+                                                            <!--提示-->
+                                                            <br>
+                                                            <br>
+                                                            {% with messages = get_flashed_messages() %}
+                                                                {% if messages %}
+                                                                    {% for message in messages %}
+                                                                        <p>{{ message }}</p>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            {% endwith %}
                                                         </form>
-                                                    </ul>
+                                                    </div>
+
+{#                                                    <ul class="menu">#}
+{#                                                        <form>#}
+{#                                                            <input type="text" id="s" name="s" value="时间搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>#}
+{#                                                        </form>#}
+{#                                                    </ul>#}
 {#                                                    广告位#}
 {#                                                <div class="widget widget_advertisment">#}
 {#                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">#}
@@ -361,10 +332,12 @@
                                                 <div class="listing_grid">
                                                     {% block row %}
                                                         {% endblock %}
+                                                    {% block page_size %}
 													<form action="#" method="post">
 {#														<input type="button" value="上一页" name="last page" />#}
 														<input type="button" value="加载更多" name="next page" class="center-block"/>
 													</form>
+                                                    {% endblock %}
                                                 </div>
                                             </div>
                                         </div>
@@ -398,8 +371,9 @@
                     </div>
                     {% endblock %}
                 </div>
-            </main><!--// Main Content //--><!--// Footer Widget //-->
+            </main><!--// Main Content //-->
 
+            <!--// Footer Widget //-->
             {% block footer %}
             <footer id="footer-sec">
                 <div class="container">
@@ -486,13 +460,19 @@
                         </aside>
                         <aside class="widget col-lg-4 col-md-4 col-sm-6 widget_newsletter">
                             <div class="widget-section-title">
-                                <strong class="title">Weekly Newsletter</strong>
+                                <strong class="title">联系我们</strong>
                             </div>
-                            <form>
                                 <fieldset>
-                                    <input type="submit" value="Submit" name="submit" class="cs-btn"><input class="email" type="email" placeholder="Your Email Address">
+                                    <input type="text" value="sinyercy@163.com" style="color: #0f0f0f" id="input"><button onclick="copyFn()" class="cs-btn">点击复制</button>
+                                    {# js 复制 #}
+                                    <script>
+                                    function copyFn() {
+                                            var e = document.getElementById("input");
+                                            e.select();
+                                            document.execCommand("Copy");
+                                        }
+                                    </script>
                                 </fieldset><span>Private, secure, spam-free</span>
-                            </form>
                         </aside>
                     </div>
                 </div>
@@ -541,15 +521,6 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="social-media">
                                 <ul>
-{#                                    <li>#}
-{#                                        <a href="#"><i class="icon-facebook7"></i></a>#}
-{#                                    </li>#}
-{#                                    <li>#}
-{#                                        <a href="#"><i class="icon-twitter6"></i></a>#}
-{#                                    </li>#}
-{#                                    <li>#}
-{#                                        <a href="#"><i class="icon-googleplus7"></i></a>#}
-{#                                    </li>#}
                                     <li>
                                         {% if admin_name %}
                                             <a href="{{ url_for('admin.admin_center') }}"><i class="icon-instagram4"></i></a>
@@ -557,12 +528,6 @@
                                             <a href="{{ url_for('admin.admin_logging') }}"><i class="icon-instagram4"></i></a>
                                         {% endif %}
                                     </li>
-{#                                    <li>#}
-{#                                        <a href="#"><i class="icon-youtube-play"></i></a>#}
-{#                                    </li>#}
-{#                                    <li>#}
-{#                                        <a href="#"><i class="icon-skype"></i></a>#}
-{#                                    </li>#}
                                 </ul>
                             </div>
                         </div>

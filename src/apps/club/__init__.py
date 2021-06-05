@@ -30,6 +30,11 @@ def create_app():
         functions = data.all()
         return render_template('index.html', functions=functions)
 
+    # 404 error handler
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('errors/404.html'), 404
+
     @app.route('/base')
     def base():
         return render_template('base.html')

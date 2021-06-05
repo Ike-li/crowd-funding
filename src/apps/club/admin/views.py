@@ -251,7 +251,7 @@ def check_function():
 @admin_bp.route('/collections', methods=['GET'])
 @load_admin
 def show_all_collections():
-    cql = "SELECT function_id,function_type,function_title,collections FROM functions.functions_collections_counter;"
+    cql = "SELECT function_id,function_title,collections FROM functions.functions_collections_counter;"
     data = cass_session.execute(cql)
     # ls1 = []
     # for i in data:
