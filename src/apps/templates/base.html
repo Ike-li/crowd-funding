@@ -50,27 +50,13 @@
                                         <a href="/">首页</a>
                                     </li>
                                     <li>
-                                        <a href="#">Discover</a>
-{#                                        <ul class="sub-dropdown">#}
-{#                                            <li>#}
-{#                                                <a href="listing-grid.html">Grid View</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="listing.html">List view</a>#}
-{#                                            </li>#}
-{#                                            <li>#}
-{#                                                <a href="detail.html">Detail Page</a>#}
-{#                                            </li>#}
-{#                                        </ul>#}
-                                    </li>
-                                    <li>
                                         <a href="creators.html">发布者</a>
                                     </li>
                                     <li>
                                         <a href="supporters.html">支持者</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Pages</a>
+{#                                    <li>#}
+{#                                        <a href="#">Pages</a>#}
 {#                                        <ul class="sub-dropdown">#}
 {#                                            <li>#}
 {#                                                <a href="about.html">About us</a>#}
@@ -115,7 +101,7 @@
 {#                                                <a href="user-detail2.html">user detail2</a>#}
 {#                                            </li>#}
 {#                                        </ul>#}
-                                    </li>
+{#                                    </li>#}
                                     <li>
                                         <a href="#">新闻</a>
 {#                                        <ul class="sub-dropdown">#}
@@ -136,27 +122,19 @@
                         <div class="right-side">
                             <div class="cs-search-block">
                                 <form>
-                                    <input type="text" id="s" name="s" value="搜索 项目" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
+                                    <input type="text" id="s" name="s" value="项目搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
                                 </form>
                             </div>
+{#                            <div class="cs-search-block">#}
+{#                                <form>#}
+{#                                    <input type="text" id="s" name="s" value="时间搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>#}
+{#                                </form>#}
+{#                            </div>#}
                             <div class="profile-view">
                                 <ul>
                                     <li>
-{#                                        <img alt="#" src="../static/assets/extra-images/user-img.jpg"><i class="icon-arrow-down8"></i>#}
                                         <img alt="#" src="../static/assets/images/user-image.png"><i class="icon-arrow-down8"></i>
                                         <div class="dropdown-area">
-
-{#                                            {% if user_name %}#}
-{#                                                <li><a href="{{ url_for('user.user_center') }}">{{ user_name }}</a></li>#}
-{#                                                <li><a href="{{ url_for('user.user_logout') }}">用户注销</a></li>#}
-{##}
-{#                                            {% elif admin_name %}#}
-{#                                                <li><a href="{{ url_for('admin.admin_center') }}">欢迎 {{ admin_name }}</a></li>#}
-{#                                                <li><a href="{{ url_for('admin.admin_logout') }}">管理员注销</a></li>#}
-{#                                            {% else %}#}
-{#                                                <a href="{{ url_for('user.user_logging') }}">用户登录</a>#}
-{#                                                <a href="{{ url_for('user.user_register') }}">用户注册</a>#}
-{#                                            {% endif %}#}
 
                                             {% if user_name %}
                                                 <h5>
@@ -316,56 +294,68 @@
                                                     </div>
                                                     <ul class="menu">
                                                         <li>
-                                                            <a href="#"><i class="icon-user9 cscolor"></i>Art</a><span>233</span>
+                                                            <a href="/search_type/Art"><i class="icon-user9 cscolor"></i>Art</a><span>233</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-heart11 cscolor"></i>Comics</a><span>258</span>
+                                                            <a href="/search_type/Comics"><i class="icon-heart11 cscolor"></i>Comics</a><span>258</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-brush2 cscolor"></i>Craft</a><span>89</span>
+                                                            <a href="/search_type/Craft"><i class="icon-brush2 cscolor"></i>Craft</a><span>89</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-circle-thin cscolor"></i>Dance</a><span>1879</span>
+                                                            <a href="/search_type/Dance/"><i class="icon-circle-thin cscolor"></i>Dance</a><span>1879</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-key7 cscolor"></i>Design</a><span>55</span>
+                                                            <a href="/search_type/Design"><i class="icon-key7 cscolor"></i>Design</a><span>55</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-sun4 cscolor"></i>Fashion</a><span>12</span>
+                                                            <a href="/search_type/Fashion"><i class="icon-sun4 cscolor"></i>Fashion</a><span>12</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-light-bulb cscolor"></i>Film & Video</a><span>8</span>
+                                                            <a href="/search_type/Film & Video"><i class="icon-light-bulb cscolor"></i>Film & Video</a><span>8</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-clipboard6 cscolor"></i>Food</a><span>10</span>
+                                                            <a href="/search_type/Food"><i class="icon-clipboard6 cscolor"></i>Food</a><span>10</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-archive2 cscolor"></i>Games</a><span>56</span>
+                                                            <a href="/search_type/Games"><i class="icon-archive2 cscolor"></i>Games</a><span>56</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-pie2 cscolor"></i>Journalism</a><span>233</span>
+                                                            <a href="/search_type/Journalism"><i class="icon-pie2 cscolor"></i>Journalism</a><span>233</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-lock6 cscolor"></i>Music</a><span>258</span>
+                                                            <a href="/search_type/Music"><i class="icon-lock6 cscolor"></i>Music</a><span>258</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-upload10 cscolor"></i>Photography</a><span>1879</span>
+                                                            <a href="/search_type/Photography"><i class="icon-upload10 cscolor"></i>Photography</a><span>1879</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-archive3 cscolor"></i>Publishing</a><span>55</span>
+                                                            <a href="/search_type/Publishing"><i class="icon-archive3 cscolor"></i>Publishing</a><span>55</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-sound4 cscolor"></i>Technology</a><span>89</span>
+                                                            <a href="/search_type/Technology"><i class="icon-sound4 cscolor"></i>Technology</a><span>89</span>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><i class="icon-evernote cscolor"></i>Theatre</a><span>13</span>
+                                                            <a href="/search_type/Theatre"><i class="icon-evernote cscolor"></i>Theatre</a><span>13</span>
                                                         </li>
                                                     </ul>
                                                 </div>
-                                                <div class="widget widget_advertisment">
+                                                <div class="widget cs_directory_categories">
+                                                    <div class="widget-section-title">
+                                                        <h4>
+                                                            <i class="icon-globe4"></i>时间检索
+                                                        </h4>
+                                                    </div>
+                                                    <ul class="menu">
+                                                        <form>
+                                                            <input type="text" id="s" name="s" value="时间搜索" onfocus="if(this.value =='Search Project') { this.value = ''; }" onblur="if(this.value == '') { this.value ='Search Project'; }" class="form-control"><label><input type="submit" value="Search"></label>
+                                                        </form>
+                                                    </ul>
+{#                                                    广告位#}
+{#                                                <div class="widget widget_advertisment">#}
 {#                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">#}
-                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">
-                                                </div>
+{#                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">#}
+{#                                                </div>#}
                                             </aside>
                                             <div class="page-content col-lg-9">
                                                 <div class="listing_grid">

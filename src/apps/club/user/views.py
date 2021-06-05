@@ -274,3 +274,29 @@ def my_comments():
     rows = cass_session.execute(cql, ls)
     functions = rows.all()
     return render_template('user/my_comments.html', args=functions, state="我的评论")
+
+
+# 主页 function 模糊搜索
+@user_bp.route('/search_function')
+def search_function():
+    function_title = request.form.get('function_title_key')
+    function_title_list = [function_title]
+    function_title_cql = "SELECT * FROM functions.functions WHERE function_title LIKE %s LIMIT 9;"
+    functions_rows = cass_session.execute(function_title_cql, function_title_list)
+    functions = functions_rows.all()
+    return render_template('index.html', functions=functions)
+
+
+# 主页类型搜索
+@user_bp.route('/search_type/<function_type>')
+def search_type(function_type):
+    function_type_list = [function_type]
+    function_type_cql = "SELECT * FROM functions.functions_by_type WHERE function_type = %s;"
+    functions_rows = cass_session.execute(function_type_cql, function_type_list)
+    functions = functions_rows.all()
+    return render_template('functions_by_type.html', args=functions)
+
+# 主页时间搜素
+@user_bp.route('/search_time/date')
+def search_time():
+    pass
