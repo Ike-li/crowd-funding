@@ -42,8 +42,17 @@ def load_user_name():
 # 模板全局变量 user_name
 @user_bp.app_context_processor
 def get_current_user():
+    user_account = None
     user_name = load_user_name()
-    return dict(user_name=user_name)
+    if user_name is None:
+        user_account = 0
+    else:
+        user_account_query_list = [user_name]
+        user_account_query_cql = "SELECT user_account FROM users.user WHERE user_name = %s;"
+        account_rows = cass_session.execute(user_account_query_cql, user_account_query_list)
+        user_account = account_rows.all()[0].get('user_account')
+
+    return dict(user_name=user_name, user_account=user_account)
 
 
 @user_bp.route('/registering')
@@ -240,6 +249,8 @@ def function_unpublished_one(function_id):
     function_unpublished_cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
     function_unpublished_data = cass_session.execute(function_unpublished_cql, function_unpublished_id)
     function_unpublished_details = function_unpublished_data.all()
+    if function_unpublished_details[0].get('state') == "未审核":
+        return render_template('user/user_function_not_reviewed_details.html', args=function_unpublished_details)
     return render_template('user/user_function_unpublished_details.html', args=function_unpublished_details)
 
 
@@ -373,3 +384,96 @@ def function_publisher(function_id_str):
     function_rows = cass_session.execute(function_published_query_cql, function_published_query_list)
     function_date = function_rows.all()
     return render_template('function_published_details.html', function=function_date)
+
+
+# 用户编辑未审核的 FR
+@user_bp.route('/edit_function_not_reviewed', methods=["POST"])
+@load_user
+def edit_function_not_reviewed():
+    new_file_name = None
+    if request.method == 'POST':
+        file = request.files['function-cover']
+        if not (file and allowed_file(file.filename)):
+            flash("图片上传不符合规则")
+            return render_template('user/create_new_function.html')
+        base_path = os.path.dirname(__file__)  # 当前文件所在路径
+        new_file_name = f"{cassandra.util.uuid_from_time(time.time())}.jpg"
+        upload_path = os.path.join(base_path, '../../static/user_images', secure_filename(new_file_name))  # 重命名图片名
+        file.save(upload_path)
+    function_cover = '../../static/user_images' + new_file_name  # 封面路径
+    function_id_str = request.form.get('function_id')
+    function_id = uuid.UUID(function_id_str)  # id
+    function_content = request.form.get('content')
+    created_at = datetime.now()  # 创建时间
+    function_type = request.form.get('type')  # 类型
+    crowd_funding_days = int(request.form.get('days'))  # 众筹时间
+    crowd_funding_money = int(request.form.get('money'))  # 众筹金额
+    function_introduction = request.form.get('introduction')  # 简介
+    function_title = request.form.get('title')  # 标题
+    publisher = session.get('user_name')
+    state = "未审核"
+    comments = None
+    # 更新 FR 到 functions.functions_request
+    function_request_list = [comments, created_at, crowd_funding_days, crowd_funding_money,
+                             function_content, function_cover, function_introduction, function_title, function_type,
+                             publisher, state, function_id]
+    print(function_request_list)
+    function_request_cql = "UPDATE functions.functions_request " \
+                           "SET comments = %s, created_at = %s, crowd_funding_days = %s, " \
+                           "crowd_funding_money = %s,  function_content = %s, function_cover = %s, " \
+                           "function_introduction = %s, function_title = %s , function_type = %s, " \
+                           " publisher = %s,  state  = %s WHERE function_id = %s;"
+    cass_session.execute(function_request_cql, function_request_list)
+
+    # 添加 FR 到 functions_request_by_status
+    function_request_by_status_list = [created_at, function_title, function_type, publisher, state, function_id]
+    function_request_by_status_cql = "UPDATE functions.functions_request_by_status " \
+                                     "SET created_at = %s, function_title = %s, function_type = %s, " \
+                                     "publisher = %s WHERE state = %s AND function_id = %s;"
+    cass_session.execute(function_request_by_status_cql, function_request_by_status_list)
+
+    # 添加任务到 users.user_by_publish, 先删再插入
+    user_by_publish_delete_list = [publisher, function_id]
+    user_by_publish_delete_cql = "DELETE " \
+                                 "FROM users.user_by_publish " \
+                                 "WHERE user_name = %s AND function_id = %s;"
+    cass_session.execute(user_by_publish_delete_cql, user_by_publish_delete_list)
+    # 插入
+    user_by_publish_list = [publisher, function_id, created_at, function_title, function_type, state]
+    user_by_publish_cql = "INSERT INTO users.user_by_publish (user_name, function_id, create_at, function_title, " \
+                          "function_type, state) VALUES (%s,%s,%s,%s,%s,%s);"
+    cass_session.execute(user_by_publish_cql, user_by_publish_list)
+
+    flash("任务更新成功！")
+    return redirect(url_for('user.user_functions', state=state))
+
+
+@user_bp.route('/delete_function_not_reviewed', methods=['POST'])
+@load_user
+def delete_function_not_reviewed():
+    function_id = uuid.UUID(request.form.get('function_id'))
+    state = request.form.get('state')
+    user_name = session.get('user_name')
+
+    # 删除 functions.functions_request 表里的记录
+    functions_request_delete_list = [function_id]
+    functions_request_delete_cql = "DELETE " \
+                                   "FROM functions.functions_request " \
+                                   "WHERE function_id = %s;"
+    cass_session.execute(functions_request_delete_cql, functions_request_delete_list)
+
+    # 删除 functions.functions_request_by_status 表的记录
+    functions_request_by_status_delete_list = [state, function_id]
+    functions_request_by_status_delete_cql = "DELETE " \
+                                             "FROM functions.functions_request_by_status " \
+                                             "WHERE state = %s AND function_id = %s;"
+    cass_session.execute(functions_request_by_status_delete_cql,functions_request_by_status_delete_list)
+
+    # 删除 users.user_by_publish 表的记录
+    user_by_publish_delete_list = [user_name, function_id]
+    user_by_publish_delete_cql = "DELETE " \
+                                 "FROM users.user_by_publish " \
+                                 "WHERE user_name = %s AND function_id = %s;"
+    cass_session.execute(user_by_publish_delete_cql, user_by_publish_delete_list)
+    flash("删除成功")
+    return redirect(url_for('user.user_functions', state=state))

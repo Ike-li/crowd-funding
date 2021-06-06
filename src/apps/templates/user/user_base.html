@@ -30,6 +30,28 @@
                                             <div class="row" >
                                                 <div class="cause-holder" style="width: 100%">
                                                     <div class="col-lg-12">
+                                                        <div class="cs-auther">
+                                                            <figure>
+                                                                <a href="#"><img alt="#" src="../../static/assets/images/user-image.png"></a>
+                                                            </figure>
+                                                            <div class="text">
+                                                                <h3>
+                                                                    {{ user_name }}
+                                                                </h3><span>人人为我，我为人人</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="right-sec">
+                                                            <ul class="cs-donations">
+                                                                <li>
+                                                                    <span>余额</span><strong>￥ {{ user_account }}</strong>
+                                                                </li>
+{#                                                                <li>#}
+{#                                                                    <span>已打赏</span><strong>￥ 5,689.00</strong>#}
+{#                                                                </li>#}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
                                                         {% block profile_block %}
                                                         <div class="profile-block">
                                                             <ul class="scroll-nav">

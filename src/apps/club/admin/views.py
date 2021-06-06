@@ -1,6 +1,6 @@
 import functools
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 
@@ -22,7 +22,6 @@ def load_admin(func):
 
 
 # 从 session 获取 admin_name
-# @load_admin
 def load_admin_name():
     admin_name = session.get('admin_name')
     return admin_name
@@ -226,9 +225,9 @@ def check_function():
                function_by_request['function_cover'], function_by_request['function_introduction'],
                function_by_request['function_title'], function_by_request['function_type'],
                function_by_request['publisher']]
-        cql8 = "INSERT INTO functions.functions_by_time (created_at, function_id, crowd_funding_money, function_cover, " \
-               "function_introduction, function_title, function_type, publisher) VALUES (%s, %s, %s, %s, %s, %s, %s, %s" \
-               ");"
+        cql8 = "INSERT INTO functions.functions_by_time (created_at, function_id, crowd_funding_money, " \
+               "function_cover, function_introduction, function_title, function_type, publisher) VALUES" \
+               " (%s, %s, %s, %s, %s, %s, %s, %s);"
         cass_session.execute(cql8, ls8)
 
         # 删除 user_by_publish 的旧纪录

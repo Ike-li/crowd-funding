@@ -3,13 +3,21 @@
 <html lang="en">
 
 {% block title %}
-    审核一个新项目
+    编辑未审核的项目
 {% endblock %}
 {% block body %}
     {% block header %}
         {{ super() }}
     {% endblock %}
-
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <!-- Main Content -->
     <main id="main-content">
         <div class="main-section">
@@ -22,14 +30,43 @@
                                     <div class="row">
                                         <div class="cause-holder" style="width: 100%">
                                             <div class="col-lg-12">
-                                                <div class="profile-block">
-                                                    <form action="{{ url_for('admin.check_function') }}"
+                                                <div>
+                                                    <form action="{{ url_for('user.delete_function_not_reviewed') }}"
                                                           method="post">
+                                                        {% for function in args %}
+                                                            <div class="fields-area">
+                                                                <div class="field-col col-md-4">
+                                                                    <input type="hidden"
+                                                                           value="{{ function.function_id }}"
+                                                                           name="function_id">
+                                                                    <input type="hidden" value="{{ function.state }}"
+                                                                           name="state">
+                                                                    <input class="csbg-color cs-btn" type="submit"
+                                                                           value="删除该任务">
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </form>
+                                                </div>
+                                                <div class="right-sec">
+                                                    <ul class="cs-donations">
+                                                        <li>
+                                                            <span>余额</span><strong>￥ {{ user_account }}</strong>
+                                                        </li>
+                                                        {#                                                                <li>#}
+                                                        {#                                                                    <span>已打赏</span><strong>￥ 5,689.00</strong>#}
+                                                        {#                                                                </li>#}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="profile-block">
+                                                    <form action="{{ url_for('user.edit_function_not_reviewed') }}" method="post" enctype='multipart/form-data'>
                                                         {% for function_arg in args %}
                                                         <div class="cs-profile-area">
                                                             <div class="cs-title no-border">
                                                                 <h3>
-                                                                    审核一个新项目
+                                                                    编辑未审核的项目
                                                                 </h3>
                                                             </div>
                                                             <div class="cs-profile-holder">
@@ -38,8 +75,9 @@
 
                                                                         <li>
                                                                             <label>活动封面</label>
-                                                                            <input type="file" name="function-cover" id="ipt" placeholder="建议">
-                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面</span>
+                                                                            <input type="hidden" value="{{ function_arg.function_id }}" name="function_id">
+                                                                            <input type="file" name="function-cover" id="ipt" required="required" placeholder="建议" value="{{ function_arg.function_cover }}">
+                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面，图片格式只能为：'png', 'jpg', 'jpeg'</span>
                                                                             <img src="" alt="" id="img">
                                                                         </li>
                                                                     </ul>
@@ -49,7 +87,7 @@
                                                                         <label>活动标题</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <input type="text" value="{{ function_arg.function_title }}" required="required " >
+                                                                                <input type="text" name="title" required="required " value="{{ function_arg.function_title }}">
                                                                                 <span class="char-remain">通常来说一个简洁的标题更加吸引人</span>
                                                                             </div>
                                                                         </div>
@@ -59,7 +97,8 @@
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
                                                                                 {#                                                                                <textarea></textarea>#}
-                                                                                <input type="text" value="{{ function_arg.function_introduction }}" required="required">
+                                                                                <input type="text" name="introduction" value="{{ function_arg.function_introduction }}" required="required">
+                                                                                <span class="char-remain">一条不超过20字的项目简介</span>
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -68,7 +107,37 @@
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-6">
                                                                                 <select name="type">
-                                                                                    <option value="{{ function_arg.function_type }}">{{ function_arg.function_type }}</option>
+                                                                                    <option value="Audio">Audio</option>
+                                                                                    <option value="Art">Art</option>
+                                                                                    <option value="Music">Music</option>
+                                                                                    <option value="Photography">
+                                                                                        Photography
+                                                                                    </option>
+                                                                                    <option value="Culture">Culture
+                                                                                    </option>
+                                                                                    <option value="Environment">
+                                                                                        Environment
+                                                                                    </option>
+                                                                                    <option value="Education">
+                                                                                        Education
+                                                                                    </option>
+                                                                                    <option value="Human Rights">Human
+                                                                                        Rights
+                                                                                    </option>
+                                                                                    <option value="Wellness">Wellness
+                                                                                    </option>
+                                                                                    <option value="Writing & Publishing">
+                                                                                        Writing & Publishing
+                                                                                    </option>
+                                                                                    <option value="Transportation">
+                                                                                        Transportation
+                                                                                    </option>
+                                                                                    <option value="Food & Beverages">
+                                                                                        Food & Beverages
+                                                                                    </option>
+                                                                                    <option value="Fashion & Wearables">
+                                                                                        Fashion & Wearables
+                                                                                    </option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -79,7 +148,7 @@
                                                                         <label>需要众筹的金额</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-6">
-                                                                                <input type="number" value="{{ function_arg.crowd_funding_money }}" required="required">
+                                                                                <input type="number" name="money" value="{{ function_arg.crowd_funding_money }}">
                                                                             </div>
                                                                             <div class="field-col col-md-2">
                                                                                 <div class="select-holder">
@@ -96,9 +165,7 @@
                                                                         <label>需要众筹的时间</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-2">
-                                                                                <input type="text" value="{{ function_arg.crowd_funding_days }}天" required="required">
-                                                                                <input type='hidden' name='function_id' value='{{ function_arg.function_id }}'/>
-                                                                                <input type='hidden' name='stated' value='{{ function_arg.state }}'/>
+                                                                                <input type="number" name="days" value="{{ function_arg.crowd_funding_days }}" placeholder="输入整数天">
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -106,52 +173,18 @@
                                                                         <label>活动内容</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <textarea name="content" id="editor" required="required" >
+                                                                                <textarea name="content" id="editor" required="required">
                                                                                     {{ function_arg.function_content }}
                                                                                 </textarea>
                                                                             </div>
                                                                         </div>
                                                                     </li>
-                                                                    <li class="multiselect-holder">
-                                                                        <label>审核状态</label>
-                                                                        <div class="fields-area">
-                                                                            <div class="field-col col-md-6">
-                                                                                <select name="state">
-                                                                                    {% if function_arg.state == '未审核' %}
-                                                                                        <option value="未审核" >未审核</option>
-                                                                                        <option value="审核中" >审核中</option>
-                                                                                        <option value="未通过" >未通过</option>
-                                                                                        <option value="已通过" >已通过</option>
-                                                                                    {% elif function_arg.state == '审核中' %}
-                                                                                        <option value="审核中">审核中</option>
-                                                                                        <option value="未通过">未通过</option>
-                                                                                        <option value="已通过">已通过</option>
-                                                                                    {% elif function_arg.state == '已通过' %}
-                                                                                        <option value="已通过">已通过</option>
-                                                                                    {% else %}
-                                                                                        <option value="未通过">未通过</option>
-                                                                                    {% endif %}
-                                                                                </select>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <label>管理员留言</label>
-                                                                        <div class="fields-area">
-                                                                            <div class="field-col col-md-12">
-                                                                                <textarea name="comments"></textarea>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
                                                                 </ul>
-
                                                                 <ul class="cs-element-list cs-submit-form">
                                                                     <li>
-                                                                        <div class="fields-area">
+                                                                        <div class="fields-area" >
                                                                             <div class="field-col col-md-4">
-                                                                                <input class="csbg-color cs-btn"
-                                                                                       type="submit"
-                                                                                       value="提交审核">
+                                                                                <input class="csbg-color cs-btn" type="submit" value="提交">
                                                                             </div>
                                                                         </div>
                                                                     </li>
