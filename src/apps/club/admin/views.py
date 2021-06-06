@@ -197,7 +197,7 @@ def check_function():
         function_by_request = data.all()[0]
         created_at = datetime.now()
         closing_time = created_at + timedelta(function_by_request['crowd_funding_days'])
-        created_at_date = created_at.date()
+        created_at_date = (datetime.now()).date()
 
         # 插入到 function 表实现在广场开始众筹
         ls6 = [function_id, closing_time, created_at, created_at_date, 0, function_by_request['crowd_funding_days'],
