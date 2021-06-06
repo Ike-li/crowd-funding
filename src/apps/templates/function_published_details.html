@@ -21,7 +21,24 @@
                                 <div class="cs-content-holder">
                                     <div class="row">
                                         <div class="cause-holder" style="width: 100%">
+
                                             <div class="col-lg-12">
+                                            <form action="{{ url_for('user.delete_function_not_reviewed') }}"
+                                                          method="post">
+                                                        {% for function in args %}
+                                                            <div class="fields-area">
+                                                                <div class="field-col col-md-4">
+                                                                    <input type="hidden"
+                                                                           value="{{ function.function_id }}"
+                                                                           name="function_id">
+                                                                    <input type="hidden" value="{{ function.state }}"
+                                                                           name="state">
+                                                                    <input class="csbg-color cs-btn" type="submit"
+                                                                           value="删除该任务">
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </form>
                                                 <div class="profile-block">
                                                     <form action="{{ url_for('admin.check_function') }}"
                                                           method="post">

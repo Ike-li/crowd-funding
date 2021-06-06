@@ -248,11 +248,8 @@ def function_unpublished_one(function_id):
     function_unpublished_cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
     function_unpublished_data = cass_session.execute(function_unpublished_cql, function_unpublished_id)
     function_unpublished_details = function_unpublished_data.all()
-    print(function_unpublished_details[0].get('state'))
     if function_unpublished_details[0].get('state') == "未审核":
-        print(1)
         return render_template('user/user_function_not_reviewed_details.html', args=function_unpublished_details)
-    print(2)
     return render_template('user/user_function_unpublished_details.html', args=function_unpublished_details)
 
 
