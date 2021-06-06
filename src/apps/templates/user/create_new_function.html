@@ -10,13 +10,13 @@
         {{ super() }}
     {% endblock %}
     {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     {% endwith %}
     <!-- Main Content -->
     <main id="main-content">
@@ -46,15 +46,16 @@
                                                         <li>
                                                             <span>账户余额</span><strong>￥ {{ user_account }}</strong>
                                                         </li>
-{#                                                        <li>#}
-{#                                                            <span>我捐献的</span><strong>￥ 5,689.00</strong>#}
-{#                                                        </li>#}
+                                                        {#                                                        <li>#}
+                                                        {#                                                            <span>我捐献的</span><strong>￥ 5,689.00</strong>#}
+                                                        {#                                                        </li>#}
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="profile-block">
-                                                    <form action="{{ url_for('user.user_add_function') }}" method="post" enctype='multipart/form-data'>
+                                                    <form action="{{ url_for('user.user_add_function') }}" method="post"
+                                                          enctype='multipart/form-data'>
                                                         <div class="cs-profile-area">
                                                             <div class="cs-title no-border">
                                                                 <h3>
@@ -67,7 +68,9 @@
 
                                                                         <li>
                                                                             <label>活动封面</label>
-                                                                            <input type="file" name="function-cover" id="ipt" required="required" placeholder="建议">
+                                                                            <input type="file" name="function-cover"
+                                                                                   id="ipt" required="required"
+                                                                                   placeholder="建议">
                                                                             <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面，图片格式只能为：'png', 'jpg', 'jpeg'</span>
                                                                             <img src="" alt="" id="img">
                                                                         </li>
@@ -78,7 +81,8 @@
                                                                         <label>活动标题</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <input type="text" name="title" required="required ">
+                                                                                <input type="text" name="title"
+                                                                                       required="required ">
                                                                                 <span class="char-remain">通常来说一个简洁的标题更加吸引人</span>
                                                                             </div>
                                                                         </div>
@@ -88,7 +92,8 @@
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
                                                                                 {#                                                                                <textarea></textarea>#}
-                                                                                <input type="text" name="introduction" required="required">
+                                                                                <input type="text" name="introduction"
+                                                                                       required="required">
                                                                                 <span class="char-remain">一条不超过20字的项目简介</span>
                                                                             </div>
                                                                         </div>
@@ -201,9 +206,10 @@
                                                                 </ul>
                                                                 <ul class="cs-element-list cs-submit-form">
                                                                     <li>
-                                                                        <div class="fields-area" >
+                                                                        <div class="fields-area">
                                                                             <div class="field-col col-md-4">
-                                                                                <input class="csbg-color cs-btn" type="submit" value="创建新项目">
+                                                                                <input class="csbg-color cs-btn"
+                                                                                       type="submit" value="创建新项目">
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -273,37 +279,151 @@
         {{ super() }}
     {% endblock %}
 
-{#    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>#}
-    <script src="../../static/js/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
+    {#    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>#}
+    {#    <script src="../../static/js/ckeditor.js"></script>#}
+    {#    <script>#}
+    {##}
+    {#        ClassicEditor#}
+    {#            .create(document.querySelector('#editor'),{#}
+    {#plugins: [Base64UploadAdapter]#}
+    {#            })#}
+    {##}
+    {#            .catch(error => {#}
+    {#                console.error(error);#}
+    {#            });#}
+    {##}
+    {#    </script>#}
+    <script src="../../static/js/ckeditor1.js"></script>
+    <script>ClassicEditor
+        .create(document.querySelector('#editor'), {
 
+            toolbar: {
+                items: [
+                    'alignment',
+                    '|',
+                    'link',
+                    '|',
+                    'imageUpload',
+                    '|',
+                    'imageInsert',
+                    '|',
+                    'mediaEmbed',
+                    '|',
+                    'undo',
+                    '|',
+                    'redo',
+                    '|',
+                    'blockQuote',
+                    '|',
+                    'bold',
+                    '|',
+                    'code',
+                    '|',
+                    'codeBlock',
+                    '|',
+                    'fontBackgroundColor',
+                    '|',
+                    'fontColor',
+                    '|',
+                    'fontSize',
+                    '|',
+                    'horizontalLine',
+                    '|',
+                    'heading',
+                    '|',
+                    '|',
+                    'highlight',
+                    '|',
+                    'fontFamily',
+                    '|',
+                    'htmlEmbed',
+                    '|',
+                    'indent',
+                    '|',
+                    'outdent',
+                    '|',
+                    'italic',
+                    '|',
+                    'numberedList',
+                    '|',
+                    'bulletedList',
+                    '|',
+                    'pageBreak',
+                    '|',
+                    'specialCharacters',
+                    '|',
+                    'subscript',
+                    '|',
+                    'strikethrough',
+                    '|',
+                    'superscript',
+                    '|',
+                    'insertTable',
+                    '|',
+                    'textPartLanguage',
+                    '|',
+                    'underline',
+                    '|',
+                    'todoList',
+                    '|',
+                    '|'
+                ]
+            },
+            language: 'zh-cn',
+            image: {
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:full',
+                    'imageStyle:side',
+                    'linkImage'
+                ]
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableCellProperties',
+                    'tableProperties'
+                ]
+            },
+            licenseKey: '',
+
+
+        })
+        .then(editor => {
+            window.editor = editor;
+
+
+        })
+        .catch(error => {
+            console.error('Oops, something went wrong!');
+            console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+            console.warn('Build id: obxreno99ko0-6a0pk663jn33');
+            console.error(error);
+        });
     </script>
 
     {#    图片上传js#}
     <script>
-		        ipt.onchange=function(){
-		            img.src=URL.createObjectURL(this.files[0])
-		            console.log(this.files)
+        ipt.onchange = function () {
+            img.src = URL.createObjectURL(this.files[0])
+            console.log(this.files)
 
-		        }
+        }
 
     </script>
 
     <script>
-			function printFile(file) {
-			  var reader = new FileReader();
-			  reader.onload = function(evt) {
-			    console.log(evt.target.result);
-			  };
-			  reader.readAsText(file);
-			}
+        function printFile(file) {
+            var reader = new FileReader();
+            reader.onload = function (evt) {
+                console.log(evt.target.result);
+            };
+            reader.readAsText(file);
+        }
 
-	</script>
+    </script>
     {#    图片上传js#}
 
 {% endblock %}

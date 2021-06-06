@@ -222,14 +222,124 @@
         {{ super() }}
     {% endblock %}
 
-    <script src="../../static/js/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
+{#    <script src="../../static/js/ckeditor.js"></script>#}
+{#    <script>#}
+{#        ClassicEditor#}
+{#            .create(document.querySelector('#editor'))#}
+{#            .catch(error => {#}
+{#                console.error(error);#}
+{#            });#}
+{##}
+{#    </script>#}
+    <script src="../../static/js/ckeditor1.js"></script>
+    <script>ClassicEditor
+        .create(document.querySelector('#editor'), {
 
+            toolbar: {
+                items: [
+                    'alignment',
+                    '|',
+                    'link',
+                    '|',
+                    'imageUpload',
+                    '|',
+                    'imageInsert',
+                    '|',
+                    'mediaEmbed',
+                    '|',
+                    'undo',
+                    '|',
+                    'redo',
+                    '|',
+                    'blockQuote',
+                    '|',
+                    'bold',
+                    '|',
+                    'code',
+                    '|',
+                    'codeBlock',
+                    '|',
+                    'fontBackgroundColor',
+                    '|',
+                    'fontColor',
+                    '|',
+                    'fontSize',
+                    '|',
+                    'horizontalLine',
+                    '|',
+                    'heading',
+                    '|',
+                    '|',
+                    'highlight',
+                    '|',
+                    'fontFamily',
+                    '|',
+                    'htmlEmbed',
+                    '|',
+                    'indent',
+                    '|',
+                    'outdent',
+                    '|',
+                    'italic',
+                    '|',
+                    'numberedList',
+                    '|',
+                    'bulletedList',
+                    '|',
+                    'pageBreak',
+                    '|',
+                    'specialCharacters',
+                    '|',
+                    'subscript',
+                    '|',
+                    'strikethrough',
+                    '|',
+                    'superscript',
+                    '|',
+                    'insertTable',
+                    '|',
+                    'textPartLanguage',
+                    '|',
+                    'underline',
+                    '|',
+                    'todoList',
+                    '|',
+                    '|'
+                ]
+            },
+            language: 'zh-cn',
+            image: {
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:full',
+                    'imageStyle:side',
+                    'linkImage'
+                ]
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableCellProperties',
+                    'tableProperties'
+                ]
+            },
+            licenseKey: '',
+
+
+        })
+        .then(editor => {
+            window.editor = editor;
+
+
+        })
+        .catch(error => {
+            console.error('Oops, something went wrong!');
+            console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+            console.warn('Build id: obxreno99ko0-6a0pk663jn33');
+            console.error(error);
+        });
     </script>
 
     {#    图片上传js#}
