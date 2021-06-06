@@ -197,18 +197,19 @@ def check_function():
         function_by_request = data.all()[0]
         created_at = datetime.now()
         closing_time = created_at + timedelta(function_by_request['crowd_funding_days'])
+        created_at_date = created_at.date()
 
         # 插入到 function 表实现在广场开始众筹
-        ls6 = [function_id, closing_time, created_at, 0, function_by_request['crowd_funding_days'],
+        ls6 = [function_id, closing_time, created_at, created_at_date, 0, function_by_request['crowd_funding_days'],
                function_by_request['crowd_funding_money'], function_by_request['function_content'],
                function_by_request['function_cover'], function_by_request['function_introduction'],
                function_by_request['function_title'], function_by_request['function_type'],
                function_by_request['publisher'], function_by_request['state']]
-        cql6 = "INSERT INTO functions.functions (function_id, closing_time, created_at, crowd_funding_current_money, " \
-               "crowd_funding_days, " \
-               "crowd_funding_money, function_content, function_cover, function_introduction, function_title, " \
-               "function_type, " \
-               "publisher, state) VALUES (%s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cql6 = "INSERT INTO functions.functions " \
+               "(function_id, closing_time, created_at, created_at_date," \
+               "crowd_funding_current_money, crowd_funding_days, crowd_funding_money, function_content, " \
+               "function_cover, function_introduction, function_title, function_type, publisher, state) " \
+               "VALUES (%s, %s,  %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         cass_session.execute(cql6, ls6)
 
         # 添加任务的 function_by_type
