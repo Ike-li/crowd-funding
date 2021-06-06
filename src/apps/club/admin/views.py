@@ -1,6 +1,6 @@
 import functools
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import Blueprint, request, render_template, redirect, url_for, session, flash
 
@@ -196,7 +196,7 @@ def check_function():
         data = cass_session.execute(cql5, ls5)
         function_by_request = data.all()[0]
         created_at = datetime.now()
-        closing_time = created_at + function_by_request['crowd_funding_days']
+        closing_time = created_at + timedelta(function_by_request['crowd_funding_days'])
 
         # 插入到 function 表实现在广场开始众筹
         ls6 = [function_id, closing_time, created_at, 0, function_by_request['crowd_funding_days'],

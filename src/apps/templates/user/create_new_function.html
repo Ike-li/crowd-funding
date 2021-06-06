@@ -44,11 +44,11 @@
                                                 <div class="right-sec">
                                                     <ul class="cs-donations">
                                                         <li>
-                                                            <span>账户余额</span><strong>￥ 5,689.00</strong>
+                                                            <span>账户余额</span><strong>￥ {{ user_account }}</strong>
                                                         </li>
-                                                        <li>
-                                                            <span>我捐献的</span><strong>￥ 5,689.00</strong>
-                                                        </li>
+{#                                                        <li>#}
+{#                                                            <span>我捐献的</span><strong>￥ 5,689.00</strong>#}
+{#                                                        </li>#}
                                                     </ul>
                                                 </div>
                                             </div>
@@ -273,7 +273,8 @@
         {{ super() }}
     {% endblock %}
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+{#    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>#}
+    <script src="../../static/js/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))

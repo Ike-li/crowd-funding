@@ -188,7 +188,6 @@ def user_add_function():
     # 添加 FR 到 functions.functions_request
     ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content, function_cover,
           function_introduction, function_title, function_type, publisher, state]
-    print(ls)
     cql = "INSERT INTO functions.functions_request (function_id, comments, created_at, crowd_funding_days, " \
           "crowd_funding_money, function_content, function_cover, function_introduction, function_title, " \
           "function_type, publisher, state) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
@@ -234,9 +233,9 @@ def user_functions(state):
 @user_bp.route('/function_published/<function_id>')
 @load_user
 def function_published_one(function_id):
-    function_published_id = [uuid.UUID(function_id)]
+    function_published_list = [uuid.UUID(function_id)]
     function_published_cql = "SELECT * FROM functions.functions WHERE function_id = %s;"
-    function_published_data = cass_session.execute(function_published_cql, function_published_id)
+    function_published_data = cass_session.execute(function_published_cql, function_published_list)
     function_published_details = function_published_data.all()
     return render_template('user/user_function_published_details.html', args=function_published_details)
 
@@ -249,8 +248,11 @@ def function_unpublished_one(function_id):
     function_unpublished_cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
     function_unpublished_data = cass_session.execute(function_unpublished_cql, function_unpublished_id)
     function_unpublished_details = function_unpublished_data.all()
+    print(function_unpublished_details[0].get('state'))
     if function_unpublished_details[0].get('state') == "未审核":
+        print(1)
         return render_template('user/user_function_not_reviewed_details.html', args=function_unpublished_details)
+    print(2)
     return render_template('user/user_function_unpublished_details.html', args=function_unpublished_details)
 
 
@@ -305,7 +307,7 @@ def search_type(function_type):
     function_type_cql = "SELECT * FROM functions.functions WHERE function_type = %s;"
     functions_rows = cass_session.execute(function_type_cql, function_type_list)
     functions = functions_rows.all()
-    return render_template('index.html', functions=functions)
+    return render_template('index.html', functions=functions, function_type=function_type)
 
 
 # 主页时间搜素
@@ -373,10 +375,11 @@ def collect_function(function_id_str):
     return redirect(url_for('user.my_collections'))
 
 
-# 查看某一个已发布的 FR
-@user_bp.route('/function_published/<function_id_str>')
+# 查看主页某一个已发布 FR 的详细信息
+@user_bp.route('/functions_published/<function_id_str>')
 def function_publisher(function_id_str):
     function_id_uuid = uuid.UUID(function_id_str)
+    print(function_id_uuid)
     function_published_query_list = [function_id_uuid]
     function_published_query_cql = "SELECT * " \
                                    "FROM functions.functions " \
@@ -417,7 +420,6 @@ def edit_function_not_reviewed():
     function_request_list = [comments, created_at, crowd_funding_days, crowd_funding_money,
                              function_content, function_cover, function_introduction, function_title, function_type,
                              publisher, state, function_id]
-    print(function_request_list)
     function_request_cql = "UPDATE functions.functions_request " \
                            "SET comments = %s, created_at = %s, crowd_funding_days = %s, " \
                            "crowd_funding_money = %s,  function_content = %s, function_cover = %s, " \
@@ -448,6 +450,7 @@ def edit_function_not_reviewed():
     return redirect(url_for('user.user_functions', state=state))
 
 
+#  用户删除自己未审核的任务
 @user_bp.route('/delete_function_not_reviewed', methods=['POST'])
 @load_user
 def delete_function_not_reviewed():

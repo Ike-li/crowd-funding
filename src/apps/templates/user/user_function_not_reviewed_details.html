@@ -87,7 +87,7 @@
                                                                         <label>活动标题</label>
                                                                         <div class="fields-area">
                                                                             <div class="field-col col-md-12">
-                                                                                <input type="text" name="title" required="required " value="{{ function_arg.function_title }}">
+                                                                                <input type="text" name="title" required="required" value="{{ function_arg.function_title }}">
                                                                                 <span class="char-remain">通常来说一个简洁的标题更加吸引人</span>
                                                                             </div>
                                                                         </div>
@@ -255,7 +255,7 @@
         {{ super() }}
     {% endblock %}
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script src="../../static/js/ckeditor.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'))

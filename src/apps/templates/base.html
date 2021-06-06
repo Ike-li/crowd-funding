@@ -247,6 +247,11 @@
                                                         </h4>
                                                     </div>
                                                     <ul class="menu">
+                                                        {% if function_type %}
+                                                            <li>
+                                                                当前类型：{{ function_type }}
+                                                            </li>
+                                                        {% endif %}
                                                         <li>
                                                             <a href="/search_type/Art"><i class="icon-user9 cscolor"></i>Art</a><span>233</span>
                                                         </li>
@@ -303,7 +308,7 @@
                                                             <input type="date" name="search_date" id="datetime">
                                                             <p name="accept" style="font-size: 2px;color: #6f7c8e;margin-top: 5px;margin-left: 2px">
                                                                 当前选择时间：{{ search_date}}</p>
-                                                            <input type="submit" value="提交" style="margin-top: 50px">
+                                                            <input type="submit" value="提交" style="margin-top: 50px" class="cs-btn">
                                                             <!--提示-->
                                                             <br>
                                                             <br>
@@ -326,7 +331,7 @@
 {#                                                <div class="widget widget_advertisment">#}
 {#                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">#}
 {#                                                    <img src="../static/assets/extra-images/adv2.jpg" alt="">#}
-{#                                                </div>#}
+                                                </div>
                                             </aside>
                                             <div class="page-content col-lg-9">
                                                 <div class="listing_grid">
