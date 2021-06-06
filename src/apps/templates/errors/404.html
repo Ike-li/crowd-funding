@@ -1,5 +1,9 @@
 {% extends "index.html" %}
 {% block body %}
+    {% block header %}
+            {{ super() }}
+        {% endblock %}
+
     {% block error_404 %}
         <!-- Main Content -->
         <main id="main-content">
@@ -43,5 +47,15 @@
                 </div>
             </div>
         </main><!--// Main Content //-->
+        {% block register %}
+                        {{ super() }}
+                    {% endblock %}
+        {% block footer %}
+            {{ super() }}
+        {% endblock %}
+
+        {% block copyright %}
+            {{ super() }}
+        {% endblock %}
     {% endblock %}
 {% endblock %}

@@ -177,34 +177,45 @@
                                                 <div class="listing_grid">
                                                     {% block row %}
                                                             <div class="row">
-                                                                {% for i in functions %}
+                                                                {% for function in functions %}
                                                                     <article class="col-lg-4 col-md-4 col-sm-6">
 {#                                                                    <article class="col-lg-4 col-md-4 col-sm-6" style="display:none">#}
                                                                         <div class="directory-section">
                                                                             <div class="cs_thumbsection">
                                                                                 <figure>
-                                                                                    <a href="/functions_published/{{ i.function_id }}"><img src="{{ i.function_cover }}" alt=""></a>
+                                                                                    <a href="/functions_published/{{ function.function_id }}"><img src="{{ function.function_cover }}" alt=""></a>
                                                                                 </figure>
                                                                             </div>
                                                                             <div class="content_info">
                                                                                 <div class="title">
                                                                                     <h3>
-                                                                                        <a href="/function_published/{{ i.function_id }}">{{ i.function_title }}</a>
-                                                                                    </h3><span class="addr">{{ i.function_introduction }}</span>
+                                                                                        <a href="/function_published/{{ function.function_id }}">{{ function.function_title }}</a>
+                                                                                    </h3><span class="addr">{{ function.function_introduction }}</span>
                                                                                 </div>
                                                                                 <div class="dr_info">
                                                                                     <ul>
                                                                                         <li>
-                                                                                            <i class="cscolor icon-target5"></i>¥ {{ i.crowd_funding_money }} goal
+                                                                                            <i class="cscolor icon-target5"></i>¥ {{ function.crowd_funding_money }} goal
                                                                                         </li>
                                                                                         <li>
-                                                                                            <i class="cscolor icon-clock7" ></i>{{ i.closing_time| string |truncate(10, True, '') }} <!-- jinja2 过滤器 -->
+                                                                                            <i class="cscolor icon-clock7" ></i>{{ function.closing_time| string |truncate(10, True, '') }} <!-- jinja2 过滤器 -->
                                                                                         </li>
-                                                                                    </ul><span class="bar"><span style="width:{{ (i.crowd_funding_current_money / i.crowd_funding_money) * 100 }}%;"></span></span>     <!-- 颜色进度条-->
+                                                                                    </ul><span class="bar"><span style="width:{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }}%;"></span></span>     <!-- 颜色进度条-->
                                                                                     <div class="detail">
-                                                                                        <span class="fund">{{ (i.crowd_funding_current_money / i.crowd_funding_money) * 100 }} % Funded</span><!-- 金额进度条-->
-                                                                                        <a href="/collect/{{ i.function_id }}" class="star icon-star"></a>
+                                                                                        <span class="fund">{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }} % Funded</span><!-- 金额进度条-->
+                                                                                        <a href="/collect/{{ function.function_id }}" class="star icon-star"></a>
+                                                                                    </div><br>
+                                                                                    <center>
+                                                                                        <div >
+                                                                                            <form action="{{ url_for('user.donating') }}" method="post">
+                                                                                                <fieldset>
+                                                                                                    <input type="submit" value="为他筹集" name="submit" class="cs-btn">
+                                                                                                    <input type="hidden" value="{{ function.function_id }}" name="function_id">
+                                                                                                    <input type="hidden" value="{{ function.closing_time }}" name="closing_time">
+                                                                                                </fieldset>
+                                                                                            </form>
                                                                                     </div>
+                                                                                    </center>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

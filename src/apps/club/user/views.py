@@ -240,7 +240,7 @@ def function_published_one(function_id):
     return render_template('user/user_function_published_details.html', args=function_published_details)
 
 
-# 用户查查看自己某一个 未审核 / 审核中 / 未通过 的 FR
+# 用户查看自己某一个 未审核 / 审核中 / 未通过 的 FR
 @user_bp.route('/function_unpublished/<function_id>')
 @load_user
 def function_unpublished_one(function_id):
@@ -467,7 +467,7 @@ def delete_function_not_reviewed():
     functions_request_by_status_delete_cql = "DELETE " \
                                              "FROM functions.functions_request_by_status " \
                                              "WHERE state = %s AND function_id = %s;"
-    cass_session.execute(functions_request_by_status_delete_cql,functions_request_by_status_delete_list)
+    cass_session.execute(functions_request_by_status_delete_cql, functions_request_by_status_delete_list)
 
     # 删除 users.user_by_publish 表的记录
     user_by_publish_delete_list = [user_name, function_id]
@@ -477,3 +477,20 @@ def delete_function_not_reviewed():
     cass_session.execute(user_by_publish_delete_cql, user_by_publish_delete_list)
     flash("删除成功")
     return redirect(url_for('user.user_functions', state=state))
+
+
+# 用户打赏跳转
+@user_bp.route('/donating', methods=['POST'])
+@load_user
+def donating():
+    function_id = request.form.get('function_id')
+    return render_template('user/user_donate_function.html', function_id=function_id)
+
+
+# 用户打赏一个 FR
+@user_bp.route('/upload_donation', methods=["POST"])
+@load_user
+def donate_function():
+    function_id_uuid = uuid.UUID(request.form.get('function_id'))
+    money = int(request.form.get('money'))
+
