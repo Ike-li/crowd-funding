@@ -202,7 +202,13 @@
                                                                                         </li>
                                                                                     </ul><span class="bar"><span style="width:{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }}%;"></span></span>     <!-- 颜色进度条-->
                                                                                     <div class="detail">
-                                                                                        <span class="fund">{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }} % Funded</span><!-- 金额进度条-->
+                                                                                        <span class="fund">{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }} %
+                                                                                            {% if function.crowd_funding_current_money < function.crowd_funding_money %}
+                                                                                                众筹中
+                                                                                            {% else %}
+                                                                                                众筹成功
+                                                                                            {% endif %}
+                                                                                        </span><!-- 金额进度条-->
                                                                                         <a href="/collect/{{ function.function_id }}" class="star icon-star"></a>
                                                                                     </div><br>
                                                                                     <center>
