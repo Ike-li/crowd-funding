@@ -12,7 +12,7 @@
     <body>
     {% block body %}
     {% for message in get_flashed_messages() %}
-        {{ message }}
+        <strong>{{ message }}</strong>
     {% endfor %}
         <div class="wrapper">
         {% block header %}

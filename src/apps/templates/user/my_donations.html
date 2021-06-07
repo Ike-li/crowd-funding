@@ -46,10 +46,10 @@
                                 <a href="{{ i.function_id }}">{{ i.function_title }}</a>
                             </td>
                             <td>
-                                {{ i.function_id }}
+                                {{ i.function_type }}
                             </td>
                             <td>
-                                {{ i.created_at }}
+                                {{ i.create_at | string |truncate(19, True, '') }}
                             </td>
                             <td>
                                 {{ i.money }}

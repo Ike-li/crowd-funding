@@ -1,4 +1,24 @@
 {% extends "index.html" %}
+<head>
+
+    <script>
+    function check(){
+        var money = document.getElementById("money").value;
+        var user_account = document.getElementById("user_account").value;
+        console.log(1)
+        console.log(money)
+        console.log(user_accounty)
+        console.log(2)
+        if(Number(money) > Number(user_account)){
+            alert("账户余额不足");
+            return false;
+        }else {
+            alert("正在进行打赏");
+            return true;
+        }
+    }
+</script>
+</head>
 {% block body %}
     {% block header %}
         {{ super() }}
@@ -8,7 +28,7 @@
         <!-- Main Content -->
 
         <main id="main-content">
-            <form action="{{ url_for('user.donate_function') }}" method="post">
+            <form action="{{ url_for('user.donate_function') }}" method="post" onsubmit="return check();">
                 <div class="main-section">
                     <div class="page-section">
                         <div class="container">
@@ -24,11 +44,12 @@
                                                                 <span class="badge">为它筹集</span>
                                                             </div>
                                                             <h4 class="pricing-title mb-0">Starter</h4>
-                                                            <input type="number" name="money" required="required" placeholder="请输入整数金额"><sup
+                                                            <input type="number" name="money" required="required" id="money" placeholder="请输入整数金额"><sup
                                                                 class="text-muted f-15"></sup> <i style="size: legal">
                                                             ￥</i>
                                                             <input type="hidden" name="function_id"
                                                                    value="{{ function_id }}">
+                                                            <input type="hidden" value="{{ user_account }}" name="user_account" id="user_account">
                                                             <p class="text-muted mt-3 pb-3">你的善举会带给别人极大的帮助
                                                             </p>
                                                             <hr class="mt-3 pricing-active-color">

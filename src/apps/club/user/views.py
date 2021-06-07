@@ -484,6 +484,11 @@ def delete_function_not_reviewed():
 @load_user
 def donating():
     function_id = request.form.get('function_id')
+    publisher = request.form.get('publisher')
+    user_name = session['user_name']
+    if publisher == user_name:
+        flash("不能给自己打赏")
+        return redirect(url_for('index'))
     return render_template('user/user_donate_function.html', function_id=function_id)
 
 
@@ -491,6 +496,53 @@ def donating():
 @user_bp.route('/upload_donation', methods=["POST"])
 @load_user
 def donate_function():
+    # 先查询账户余额是否能够打赏
+    user_account = request.form.get('user_account')
     function_id_uuid = uuid.UUID(request.form.get('function_id'))
-    money = int(request.form.get('money'))
+    donate_money = int(request.form.get('money'))
+    if donate_money > int(user_account):
+        flash("账户余额不足")
+        return redirect(url_for('index'))
+    # 查询当前已筹集的金额
+    donate_money_query_list = [function_id_uuid]
+    donate_money_query_cql = "SELECT * " \
+                             "FROM functions.functions " \
+                             "WHERE function_id = %s;"
+    donated_function_rows = cass_session.execute(donate_money_query_cql, donate_money_query_list)
+    donated_function = donated_function_rows.all()[0]
+    current_donate_money = donated_function.get('crowd_funding_current_money')
+    # 更新 functions.functions 表里的已筹集金额
+    crowd_funding_current_money = current_donate_money + donate_money
+    donate_function_update_list = [crowd_funding_current_money, function_id_uuid]
+    donate_function_update_cql = "UPDATE functions.functions " \
+                                 "SET crowd_funding_current_money = %s " \
+                                 "WHERE function_id = %s;"
+    cass_session.execute(donate_function_update_cql, donate_function_update_list)
 
+    # 插入数据到 users.user_by_contribution 表
+    created_at = datetime.now()
+    user_by_contribution_insert_list = [session['user_name'], function_id_uuid, created_at,
+                                        donated_function.get('function_title'),
+                                        donated_function.get('function_type'), donate_money,
+                                        donated_function.get('state')]
+    user_by_contribution_insert_cql = "INSERT INTO users.user_by_contribution " \
+                                      "(user_name, function_id, create_at, function_title, function_type, money, " \
+                                      "state) VALUES (%s, %s, %s, %s, %s, %s, %s);"
+    cass_session.execute(user_by_contribution_insert_cql, user_by_contribution_insert_list)
+
+    # 用户账户减去相应金额
+    user_name = session['user_name']
+    user_money_query_list = [user_name]
+    user_money_query_cql = "SELECT user_account " \
+                           "FROM users.user " \
+                           "WHERE user_name = %s;"
+    user_money_rows = cass_session.execute(user_money_query_cql, user_money_query_list)
+    user_money = user_money_rows.all()[0].get('user_account')
+    current_user_account = user_money - donate_money
+    user_money_insert_list = [current_user_account, user_name]
+    user_money_insert_cql = "UPDATE users.user " \
+                            "SET user_account = %s " \
+                            "WHERE user_name = %s;"
+    cass_session.execute(user_money_insert_cql,user_money_insert_list)
+    flash("打赏成功")
+    return redirect(url_for('index'))

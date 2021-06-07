@@ -31,7 +31,7 @@
     {% block body %}
         <div class="wrapper">
         {% for message in get_flashed_messages() %}
-                {{ message }}
+                <strong>{{ message }}</strong>
         {% endfor %}
 
 
@@ -315,7 +315,7 @@
                                                             {% with messages = get_flashed_messages() %}
                                                                 {% if messages %}
                                                                     {% for message in messages %}
-                                                                        <p>{{ message }}</p>
+                                                                        <strong>{{ message }}</strong>
                                                                     {% endfor %}
                                                                 {% endif %}
                                                             {% endwith %}

@@ -11,7 +11,7 @@
 <body>
     <div class="wrapper">
         {% for message in get_flashed_messages() %}
-                {{ message }}
+                <strong>{{ message }}</strong>
         {% endfor %}
 
         {% block header %}
@@ -198,7 +198,7 @@
                                                                                             <i class="cscolor icon-target5"></i>¥ {{ function.crowd_funding_money }} goal
                                                                                         </li>
                                                                                         <li>
-                                                                                            <i class="cscolor icon-clock7" ></i>{{ function.closing_time| string |truncate(10, True, '') }} <!-- jinja2 过滤器 -->
+                                                                                            <i class="cscolor icon-clock7" ></i>{{ function.closing_time | string |truncate(10, True, '') }} <!-- jinja2 过滤器 -->
                                                                                         </li>
                                                                                     </ul><span class="bar"><span style="width:{{ (function.crowd_funding_current_money / function.crowd_funding_money) * 100 }}%;"></span></span>     <!-- 颜色进度条-->
                                                                                     <div class="detail">
@@ -211,7 +211,7 @@
                                                                                                 <fieldset>
                                                                                                     <input type="submit" value="为他筹集" name="submit" class="cs-btn">
                                                                                                     <input type="hidden" value="{{ function.function_id }}" name="function_id">
-                                                                                                    <input type="hidden" value="{{ function.closing_time }}" name="closing_time">
+                                                                                                    <input type="hidden" value="{{ function.publisher }}" name="publisher">
                                                                                                 </fieldset>
                                                                                             </form>
                                                                                     </div>
