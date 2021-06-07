@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask, render_template
 from flask_ckeditor import CKEditor
 
@@ -25,9 +27,69 @@ def create_app():
     # 首页
     @app.route('/')
     def index():
-        cql = "SELECT * FROM functions.functions;"
-        data = cass_session.execute(cql)
-        functions = data.all()
+        functions_cql = "SELECT * " \
+                        "FROM functions.functions;"
+        functions_rows = cass_session.execute(functions_cql)
+        functions = functions_rows.all()
+        for function in functions:
+            if function.get('closing_time') < (datetime.now()):
+                print("到期")
+                if function.get('crowd_funding_current_money') >= function.get('crowd_funding_money'):
+                    print("众筹成功")
+                    # 插入到 functions.success_functions 表
+                    success_function_insert_list = [function.get('function_id'), function.get('closing_time'),
+                                                    function.get('created_at'), function.get('created_at_date'),
+                                                    function.get('crowd_funding_days'),
+                                                    function.get('crowd_funding_money'),
+                                                    function.get('function_content'), function.get('function_cover'),
+                                                    function.get('function_introduction'),
+                                                    function.get('function_title'),
+                                                    function.get('function_type'), function.get('publisher')]
+                    success_function_insert_cql = "INSERT INTO functions.success_functions " \
+                                                  "(function_id, closing_time, created_at, created_at_date, " \
+                                                  "crowd_funding_days, crowd_funding_money, function_content, " \
+                                                  "function_cover, function_introduction, function_title, " \
+                                                  "function_type, publisher) " \
+                                                  "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+                    cass_session.execute(success_function_insert_cql, success_function_insert_list)
+                    print("插入 success_function")
+                    # 删除 functions.functions 表里的 记录
+                    delete_function_list = [function.get('function_id')]
+                    delete_function_cql = "DELETE FROM " \
+                                          "functions.functions WHERE function_id = %s;"
+                    cass_session.execute(delete_function_cql, delete_function_list)
+                else:
+                    print("众筹失败")
+                    # 插入到 functions.fail_functions 表
+                    fail_function_insert_list = [function.get('function_id'), function.get('closing_time'),
+                                                 function.get('created_at'), function.get('created_at_date'),
+                                                 function.get('crowd_funding_days'),
+                                                 function.get('crowd_funding_money'),
+                                                 function.get('function_content'), function.get('function_cover'),
+                                                 function.get('function_introduction'),
+                                                 function.get('function_title'),
+                                                 function.get('function_type'), function.get('publisher')]
+                    fail_function_insert_cql = "INSERT INTO functions.fail_functions " \
+                                               "(function_id, closing_time, created_at, created_at_date, " \
+                                               "crowd_funding_days, crowd_funding_money, function_content, " \
+                                               "function_cover, function_introduction, function_title, " \
+                                               "function_type, publisher) " \
+                                               "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
+                    cass_session.execute(fail_function_insert_cql, fail_function_insert_list)
+                    print("插入 fail_function")
+                    # 删除 functions.functions 表里的 记录
+                    delete_function_list = [function.get('function_id')]
+                    delete_function_cql = "DELETE FROM " \
+                                          "functions.functions WHERE function_id = %s;"
+                    cass_session.execute(delete_function_cql, delete_function_list)
+            else:
+                print("没到期")
+        # current_time = datetime.now()
+        # closing_time = functions[0].get('closing_time')
+        # function_id =
+        # print(functions[0])
+        # if current_time == closing_time:
+        #     return redirect(url_for('user'))
         return render_template('index.html', functions=functions)
 
     # 404 error handler
@@ -42,4 +104,5 @@ def create_app():
     @app.route('/user_base')
     def user_base():
         return render_template('user/user_base.html')
+
     return app

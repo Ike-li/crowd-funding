@@ -38,7 +38,9 @@ def get_current_admin():
 @admin_bp.route('/')
 @load_admin
 def admin_center():
-    cql = "SELECT * FROM functions.functions_request_by_status WHERE state = '未审核';"
+    cql = "SELECT * " \
+          "FROM functions.functions_request_by_status " \
+          "WHERE state = '未审核';"
     data = cass_session.execute(cql)
     functions_request = data.all()
     return render_template('admin/admin_info.html', args=functions_request, state="未审核")
@@ -61,14 +63,18 @@ def admin_login():
     admin_passwd = request.form.get('admin_passwd')
     # 根据用户名在数据库比对用户信息的合法性
     cass_ls = [admin_name]
-    cql = "SELECT * FROM functions.admin WHERE admin_name = %s;"
+    cql = "SELECT * " \
+          "FROM functions.admin " \
+          "WHERE admin_name = %s;"
 
     # 判断管理员是否存在
     if len(cass_session.execute(cql, cass_ls).all()) == 0:
         return render_template('admin/admin_login.html', msg='该管理员不存在!')
 
     # 如果管理员存在则对比密码是否相等
-    cql1 = "SELECT admin_passwd FROM functions.admin WHERE admin_name = %s;"
+    cql1 = "SELECT admin_passwd " \
+           "FROM functions.admin " \
+           "WHERE admin_name = %s;"
     cass_get_data = cass_session.execute(cql1, cass_ls)
 
     for rows in cass_get_data:
@@ -102,7 +108,9 @@ def functions_state():
 
     state = request.args.get('state')
     ls = [state]
-    cql = "SELECT * FROM functions.functions_request_by_status WHERE state = %s; "
+    cql = "SELECT * " \
+          "FROM functions.functions_request_by_status " \
+          "WHERE state = %s; "
     data = cass_session.execute(cql, ls)
     functions = data.all()
     print(functions)
@@ -127,7 +135,9 @@ def functions_state():
 @load_admin
 def function(function_id):
     ls = [uuid.UUID(function_id)]
-    cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
+    cql = "SELECT * " \
+          "FROM functions.functions_request " \
+          "WHERE function_id = %s;"
     data = cass_session.execute(cql, ls)
     functions_request = data.all()
     return render_template('admin/admin_functions_update.html', args=functions_request)
@@ -145,18 +155,23 @@ def check_function():
     print(ls)
 
     # 更新 functions.functions_request 的状态
-    cql = "UPDATE functions.functions_request SET comments = %s, state = %s WHERE function_id = %s;"
+    cql = "UPDATE functions.functions_request " \
+          "SET comments = %s, state = %s " \
+          "WHERE function_id = %s;"
     cass_session.execute(cql, ls)
 
     # 删除 functions.functions_request_by_status 的对应记录，因为 state为主键不能修改
     ls1 = [stated, function_id]
-    cql1 = "DELETE FROM functions.functions_request_by_status WHERE state = %s AND function_id = %s;"
+    cql1 = "DELETE FROM functions.functions_request_by_status " \
+           "WHERE state = %s " \
+           "AND function_id = %s;"
     cass_session.execute(cql1, ls1)
 
     # 查询出该条记录的其他 字段，为删除再插入 functions.functions_request_by_status 表到作准备
     ls2 = [function_id]
-    cql2 = "SELECT function_type,function_title,publisher, created_at FROM functions.functions_request WHERE " \
-           "function_id = %s "
+    cql2 = "SELECT function_type,function_title,publisher, created_at " \
+           "FROM functions.functions_request " \
+           "WHERE function_id = %s "
     data = cass_session.execute(cql2, ls2)
 
     ls3 = data.all()
@@ -165,21 +180,28 @@ def check_function():
     ls4 = [state, function_id, ls3[0].get('created_at'), ls3[0].get('function_title'), ls3[0].get('function_type'),
            ls3[0].get('publisher')]
     print(ls4)
-    cql4 = "INSERT INTO functions.functions_request_by_status (state, function_id, created_at, function_title, " \
-           "function_type, publisher) VALUES (%s, %s,%s, %s, %s, %s); "
+    cql4 = "INSERT INTO functions.functions_request_by_status " \
+           "(state, function_id, created_at, function_title, function_type, publisher) " \
+           "VALUES (%s, %s,%s, %s, %s, %s); "
     cass_session.execute(cql4, ls4)
 
     # 更新 user.user_by_publish 的旧记录 里的 state
 
     ls10 = [state, ls3[0].get('publisher'), function_id, ls3[0].get('created_at')]
-    cql10 = "UPDATE users.user_by_publish SET state = %s WHERE user_name = %s AND function_id = %s AND create_at = %s;"
+    cql10 = "UPDATE users.user_by_publish " \
+            "SET state = %s " \
+            "WHERE user_name = %s " \
+            "AND function_id = %s " \
+            "AND create_at = %s;"
     cass_session.execute(cql10, ls10)
 
     # FR 通过的操作
     if state == "已通过":
         # 查询 functions.functions_request 审核已通过的 FR
         ls5 = [function_id]
-        cql5 = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
+        cql5 = "SELECT * " \
+               "FROM functions.functions_request " \
+               "WHERE function_id = %s;"
         data = cass_session.execute(cql5, ls5)
         function_by_request = data.all()[0]
         created_at = datetime.now()
@@ -204,8 +226,10 @@ def check_function():
                function_by_request['crowd_funding_money'], function_by_request['function_cover'],
                function_by_request['function_introduction'], function_by_request['function_title'],
                function_by_request['publisher']]
-        cql7 = "INSERT INTO functions.functions_by_type (function_type, function_id, crowd_funding_money, " \
-               "function_cover, function_introduction, function_title, publisher) VALUES (%s, %s, %s, %s, %s, %s, %s);"
+        cql7 = "INSERT INTO functions.functions_by_type " \
+               "(function_type, function_id, crowd_funding_money, function_cover, function_introduction, " \
+               "function_title, publisher) " \
+               "VALUES (%s, %s, %s, %s, %s, %s, %s);"
         cass_session.execute(cql7, ls7)
 
         # 添加任务到 function_by_time
@@ -213,21 +237,25 @@ def check_function():
                function_by_request['function_cover'], function_by_request['function_introduction'],
                function_by_request['function_title'], function_by_request['function_type'],
                function_by_request['publisher']]
-        cql8 = "INSERT INTO functions.functions_by_time (created_at, function_id, crowd_funding_money, " \
-               "function_cover, function_introduction, function_title, function_type, publisher) VALUES" \
-               " (%s, %s, %s, %s, %s, %s, %s, %s);"
+        cql8 = "INSERT INTO functions.functions_by_time " \
+               "(created_at, function_id, crowd_funding_money, function_cover, function_introduction, " \
+               "function_title, function_type, publisher) " \
+               "VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
         cass_session.execute(cql8, ls8)
 
         # 删除 user_by_publish 的旧纪录
         ls13 = [function_by_request['publisher'], function_id]
-        cql13 = "DELETE FROM users.user_by_publish WHERE user_name = %s AND function_id = %s;"
+        cql13 = "DELETE FROM users.user_by_publish" \
+                " WHERE user_name = %s " \
+                "AND function_id = %s;"
         cass_session.execute(cql13, ls13)
 
         # 添加 FR 到 user_by_publish
         ls9 = [function_by_request['publisher'], function_by_request['function_id'], created_at,
                function_by_request['function_title'], function_by_request['function_type'], state]
-        cql9 = "INSERT INTO users.user_by_publish(user_name, function_id, create_at, function_title, function_type, " \
-               "state) VALUES (%s, %s, %s, %s, %s, %s)"
+        cql9 = "INSERT INTO users.user_by_publish" \
+               "(user_name, function_id, create_at, function_title, function_type, state) " \
+               "VALUES (%s, %s, %s, %s, %s, %s)"
         cass_session.execute(cql9, ls9)
 
     flash("更新成功!")
@@ -250,7 +278,9 @@ def show_all_collections():
 @load_admin
 def show_one_collections(function_id):
     ls = [uuid.UUID(function_id)]
-    cql = "SELECT * FROM functions.functions_collections WHERE function_id = %s;"
+    cql = "SELECT * " \
+          "FROM functions.functions_collections " \
+          "WHERE function_id = %s;"
     data = cass_session.execute(cql, ls)
     collections = data.all()
     return render_template('admin/admin_one_functions_collections.html', collections=collections)
@@ -287,3 +317,9 @@ def show_crowd_funding_fail_functions():
     fail_functions_rows = cass_session.execute(fail_functions_cql)
     fail_functions = fail_functions_rows.all()
     return render_template('admin/admin_fail_functions.html', fail_functions=fail_functions)
+
+
+# @admin_bp.route('/handle_deadline_functions/<function_id>')
+# @load_admin
+# def handle_deadline_functions(function_id):
+#     function_id_uuid = uuid.UUID(function_id)

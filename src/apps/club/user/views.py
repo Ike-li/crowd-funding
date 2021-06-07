@@ -48,7 +48,9 @@ def get_current_user():
         user_account = 0
     else:
         user_account_query_list = [user_name]
-        user_account_query_cql = "SELECT user_account FROM users.user WHERE user_name = %s;"
+        user_account_query_cql = "SELECT user_account " \
+                                 "FROM users.user " \
+                                 "WHERE user_name = %s;"
         account_rows = cass_session.execute(user_account_query_cql, user_account_query_list)
         user_account = account_rows.all()[0].get('user_account')
 
@@ -74,14 +76,20 @@ def user_register():
     ls1 = [user_phone]
     ls2 = [user_email]
     ls3 = [user_name, 500, user_email, user_passwd, user_phone]
-    cql = "SELECT user_name FROM users.user WHERE user_name = %s;"
+    cql = "SELECT user_name " \
+          "FROM users.user " \
+          "WHERE user_name = %s;"
     if len(cass_session.execute(cql, ls).all()) != 0:
         flash("该用户名已被注册")
         return render_template('user/register.html')
-    elif len((cass_session.execute("SELECT user_phone FROM users.user WHERE user_phone = %s;", ls1)).all()) != 0:
+    elif len((cass_session.execute("SELECT user_phone "
+                                   "FROM users.user "
+                                   "WHERE user_phone = %s;", ls1)).all()) != 0:
         flash("手机号已被注册")
         return render_template('user/register.html')
-    elif len((cass_session.execute("SELECT user_email FROM users.user WHERE user_email = %s;", ls2)).all()) != 0:
+    elif len((cass_session.execute("SELECT user_email "
+                                   "FROM users.user "
+                                   "WHERE user_email = %s;", ls2)).all()) != 0:
         flash("邮箱已被注册")
         return render_template('user/register.html')
     else:
@@ -99,7 +107,11 @@ def user_register():
 @load_user
 def user_center():
     ls = [session.get('user_name'), "已通过"]
-    cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s AND state = %s ALLOW FILTERING;"
+    cql = "SELECT * " \
+          "FROM users.user_by_publish " \
+          "WHERE user_name = %s " \
+          "AND state = %s " \
+          "ALLOW FILTERING;"
     rows = cass_session.execute(cql, ls)
     functions = rows.all()
     return render_template('user/user_info.html', args=functions, state="已通过")
@@ -122,7 +134,9 @@ def user_login():
     user_passwd = request.form.get('user_passwd')
     # 根据用户名在数据库比对用户信息的合法性
     cass_ls = [user_name]
-    cql = "SELECT * FROM users.user WHERE user_name = %s;"
+    cql = "SELECT * " \
+          "FROM users.user " \
+          "WHERE user_name = %s;"
     # cql = "select * from users.user where user_name in (%s);"
 
     # 判断用户是否存在
@@ -130,7 +144,9 @@ def user_login():
         return render_template('user/sign.html', msg='该用户不存在!')
 
     # 如果用户存在则对比密码是否相等
-    cql1 = "SELECT user_passwd FROM users.user WHERE user_name = %s;"
+    cql1 = "SELECT user_passwd " \
+           "FROM users.user " \
+           "WHERE user_name = %s;"
     cass_get_data = cass_session.execute(cql1, cass_ls)
 
     for rows in cass_get_data:
@@ -188,21 +204,25 @@ def user_add_function():
     # 添加 FR 到 functions.functions_request
     ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content, function_cover,
           function_introduction, function_title, function_type, publisher, state]
-    cql = "INSERT INTO functions.functions_request (function_id, comments, created_at, crowd_funding_days, " \
+    cql = "INSERT INTO functions.functions_request " \
+          "(function_id, comments, created_at, crowd_funding_days, " \
           "crowd_funding_money, function_content, function_cover, function_introduction, function_title, " \
-          "function_type, publisher, state) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+          "function_type, publisher, state) " \
+          "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
     cass_session.execute(cql, ls)
 
     # 添加 FR 到 functions_request_by_status
     ls1 = [state, function_id, created_at, function_title, function_type, publisher]
-    cql1 = "INSERT  INTO functions.functions_request_by_status (state, function_id, created_at, function_title, " \
-           "function_type, publisher) VALUES (%s,%s,%s,%s,%s,%s);"
+    cql1 = "INSERT  INTO functions.functions_request_by_status " \
+           "(state, function_id, created_at, function_title, function_type, publisher) " \
+           "VALUES (%s,%s,%s,%s,%s,%s);"
     cass_session.execute(cql1, ls1)
 
     # 添加任务到 user.user_by_publish
     ls2 = [publisher, function_id, created_at, function_title, function_type, state]
-    cql2 = "INSERT INTO users.user_by_publish (user_name, function_id, create_at, function_title, function_type, " \
-           "state) VALUES (%s,%s,%s,%s,%s,%s);"
+    cql2 = "INSERT INTO users.user_by_publish " \
+           "(user_name, function_id, create_at, function_title, function_type, state) " \
+           "VALUES (%s,%s,%s,%s,%s,%s);"
     cass_session.execute(cql2, ls2)
     flash("添加任务成功！")
     return render_template('index.html')
@@ -213,7 +233,11 @@ def user_add_function():
 @load_user
 def user_functions(state):
     ls = [session.get('user_name'), state]
-    cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s AND state = %s ALLOW FILTERING;"
+    cql = "SELECT * " \
+          "FROM users.user_by_publish " \
+          "WHERE user_name = %s " \
+          "AND state = %s " \
+          "ALLOW FILTERING;"
     data = cass_session.execute(cql, ls)
     functions = data.all()
     if state == "已通过":
@@ -234,7 +258,9 @@ def user_functions(state):
 @load_user
 def function_published_one(function_id):
     function_published_list = [uuid.UUID(function_id)]
-    function_published_cql = "SELECT * FROM functions.functions WHERE function_id = %s;"
+    function_published_cql = "SELECT * " \
+                             "FROM functions.functions " \
+                             "WHERE function_id = %s;"
     function_published_data = cass_session.execute(function_published_cql, function_published_list)
     function_published_details = function_published_data.all()
     return render_template('user/user_function_published_details.html', args=function_published_details)
@@ -245,7 +271,9 @@ def function_published_one(function_id):
 @load_user
 def function_unpublished_one(function_id):
     function_unpublished_id = [uuid.UUID(function_id)]
-    function_unpublished_cql = "SELECT * FROM functions.functions_request WHERE function_id = %s;"
+    function_unpublished_cql = "SELECT * " \
+                               "FROM functions.functions_request " \
+                               "WHERE function_id = %s;"
     function_unpublished_data = cass_session.execute(function_unpublished_cql, function_unpublished_id)
     function_unpublished_details = function_unpublished_data.all()
     if function_unpublished_details[0].get('state') == "未审核":
@@ -259,7 +287,9 @@ def function_unpublished_one(function_id):
 def my_donations():
     user_donate_list = [session.get('user_name')]
     # 用户对该 FR 的打赏
-    user_donate_cql = "SELECT * FROM users.user_by_contribution WHERE user_name = %s;"
+    user_donate_cql = "SELECT * " \
+                      "FROM users.user_by_contribution " \
+                      "WHERE user_name = %s;"
     user_donate_rows = cass_session.execute(user_donate_cql, user_donate_list)
     functions = user_donate_rows.all()
     # # 所有玩家对 此 FR 的打赏
@@ -277,7 +307,9 @@ def my_donations():
 @load_user
 def my_collections():
     ls = [session.get('user_name')]
-    cql = "SELECT * FROM users.user_by_collection WHERE user_name = %s;"
+    cql = "SELECT * " \
+          "FROM users.user_by_collection " \
+          "WHERE user_name = %s;"
     rows = cass_session.execute(cql, ls)
     functions = rows.all()
     return render_template('user/my_collections.html', args=functions, state="我的收藏")
@@ -288,7 +320,9 @@ def my_collections():
 @load_user
 def my_comments():
     ls = [session.get('user_name')]
-    cql = "SELECT * FROM users.user_by_comment WHERE user_name = %s;"
+    cql = "SELECT * " \
+          "FROM users.user_by_comment " \
+          "WHERE user_name = %s;"
     rows = cass_session.execute(cql, ls)
     functions = rows.all()
     return render_template('user/my_comments.html', args=functions, state="我的评论")
@@ -299,7 +333,11 @@ def my_comments():
 def search_functions():
     function_title = request.form.get('function_title_key')
     function_title_list = [function_title]
-    function_title_cql = "SELECT * FROM functions.functions WHERE function_title LIKE %s LIMIT 9;"
+    function_title_cql = "SELECT * " \
+                         "FROM functions.functions " \
+                         "WHERE function_title " \
+                         "LIKE %s " \
+                         "LIMIT 9;"
     functions_rows = cass_session.execute(function_title_cql, function_title_list)
     functions = functions_rows.all()
     return render_template('index.html', functions=functions)
@@ -309,7 +347,9 @@ def search_functions():
 @user_bp.route('/search_type/<function_type>')
 def search_type(function_type):
     function_type_list = [function_type]
-    function_type_cql = "SELECT * FROM functions.functions WHERE function_type = %s;"
+    function_type_cql = "SELECT * " \
+                        "FROM functions.functions " \
+                        "WHERE function_type = %s;"
     functions_rows = cass_session.execute(function_type_cql, function_type_list)
     functions = functions_rows.all()
     return render_template('index.html', functions=functions, function_type=function_type)
@@ -320,7 +360,9 @@ def search_type(function_type):
 def search_time():
     search_date = request.form.get('search_date')
     function_type_list = [search_date]
-    function_type_cql = "SELECT * FROM functions.functions WHERE created_at_date = %s;"
+    function_type_cql = "SELECT * " \
+                        "FROM functions.functions " \
+                        "WHERE created_at_date = %s;"
     functions_rows = cass_session.execute(function_type_cql, function_type_list)
     functions = functions_rows.all()
     return render_template('index.html', functions=functions, search_date=search_date)
@@ -429,26 +471,30 @@ def edit_function_not_reviewed():
                            "SET comments = %s, created_at = %s, crowd_funding_days = %s, " \
                            "crowd_funding_money = %s,  function_content = %s, function_cover = %s, " \
                            "function_introduction = %s, function_title = %s , function_type = %s, " \
-                           " publisher = %s,  state  = %s WHERE function_id = %s;"
+                           " publisher = %s,  state  = %s " \
+                           "WHERE function_id = %s;"
     cass_session.execute(function_request_cql, function_request_list)
 
     # 添加 FR 到 functions_request_by_status
     function_request_by_status_list = [created_at, function_title, function_type, publisher, state, function_id]
     function_request_by_status_cql = "UPDATE functions.functions_request_by_status " \
-                                     "SET created_at = %s, function_title = %s, function_type = %s, " \
-                                     "publisher = %s WHERE state = %s AND function_id = %s;"
+                                     "SET created_at = %s, function_title = %s, function_type = %s, publisher = %s " \
+                                     "WHERE state = %s " \
+                                     "AND function_id = %s;"
     cass_session.execute(function_request_by_status_cql, function_request_by_status_list)
 
     # 添加任务到 users.user_by_publish, 先删再插入
     user_by_publish_delete_list = [publisher, function_id]
     user_by_publish_delete_cql = "DELETE " \
                                  "FROM users.user_by_publish " \
-                                 "WHERE user_name = %s AND function_id = %s;"
+                                 "WHERE user_name = %s " \
+                                 "AND function_id = %s;"
     cass_session.execute(user_by_publish_delete_cql, user_by_publish_delete_list)
     # 插入
     user_by_publish_list = [publisher, function_id, created_at, function_title, function_type, state]
-    user_by_publish_cql = "INSERT INTO users.user_by_publish (user_name, function_id, create_at, function_title, " \
-                          "function_type, state) VALUES (%s,%s,%s,%s,%s,%s);"
+    user_by_publish_cql = "INSERT INTO users.user_by_publish " \
+                          "(user_name, function_id, create_at, function_title, function_type, state) " \
+                          "VALUES (%s,%s,%s,%s,%s,%s);"
     cass_session.execute(user_by_publish_cql, user_by_publish_list)
 
     flash("任务更新成功！")
@@ -474,14 +520,16 @@ def delete_function_not_reviewed():
     functions_request_by_status_delete_list = [state, function_id]
     functions_request_by_status_delete_cql = "DELETE " \
                                              "FROM functions.functions_request_by_status " \
-                                             "WHERE state = %s AND function_id = %s;"
+                                             "WHERE state = %s " \
+                                             "AND function_id = %s;"
     cass_session.execute(functions_request_by_status_delete_cql, functions_request_by_status_delete_list)
 
     # 删除 users.user_by_publish 表的记录
     user_by_publish_delete_list = [user_name, function_id]
     user_by_publish_delete_cql = "DELETE " \
                                  "FROM users.user_by_publish " \
-                                 "WHERE user_name = %s AND function_id = %s;"
+                                 "WHERE user_name = %s " \
+                                 "AND function_id = %s;"
     cass_session.execute(user_by_publish_delete_cql, user_by_publish_delete_list)
     flash("删除成功")
     return redirect(url_for('user.user_functions', state=state))
@@ -535,7 +583,8 @@ def donate_function():
                                         donated_function.get('state')]
     user_by_contribution_insert_cql = "INSERT INTO users.user_by_contribution " \
                                       "(user_name, function_id, create_at, function_title, function_type, money, " \
-                                      "state) VALUES (%s, %s, %s, %s, %s, %s, %s);"
+                                      "state) " \
+                                      "VALUES (%s, %s, %s, %s, %s, %s, %s);"
     cass_session.execute(user_by_contribution_insert_cql, user_by_contribution_insert_list)
 
     # 插入到 functions.functions_contribution 表
