@@ -319,7 +319,3 @@ def show_crowd_funding_fail_functions():
     return render_template('admin/admin_fail_functions.html', fail_functions=fail_functions)
 
 
-# @admin_bp.route('/handle_deadline_functions/<function_id>')
-# @load_admin
-# def handle_deadline_functions(function_id):
-#     function_id_uuid = uuid.UUID(function_id)

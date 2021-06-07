@@ -25,11 +25,33 @@ def create_app():
     # 实例化CKEditor类
     ckeditor.init_app(app)
 
+    # 退款函数
+    def refund(function_id):
+        refund_functions_query_list = [function_id]
+        refund_functions_query_cql = "SELECT contribution_by_user, money " \
+                                     "FROM functions.functions_contribution " \
+                                     "WHERE function_id = %s;"
+        money_list_rows = cass_session.execute(refund_functions_query_cql, refund_functions_query_list)
+        money_list = money_list_rows.all()
+        for money_dict in money_list:
+            user_name = money_dict.get('contribution_by_user')
+            money = money_dict.get('money')
+            user_account_query_list = [user_name]
+            user_account_query_cql = "SELECT user_account " \
+                                     "FROM users.user " \
+                                     "WHERE user_name = %s;"
+            user_account_by_query = (cass_session.execute(user_account_query_cql, user_account_query_list)).all()
+            user_account_insert_list = [user_name, user_account_by_query[0].get('user_account') + money]
+            user_account_insert_cql = "INSERT INTO users.user" \
+                                      "(user_name,user_account) " \
+                                      "VALUES (%s, %s);"
+            cass_session.execute(user_account_insert_cql, user_account_insert_list)
+            return None
+
     # 首页
     @app.route('/', methods=["GET", "POST"])
     def index():
         function_id = request.form.get('function_id')
-        print(function_id)
         if function_id is None:
             functions_cql = "SELECT * " \
                             "FROM functions.functions " \
@@ -59,7 +81,8 @@ def create_app():
                         # 删除 functions.functions 表里的 记录
                         delete_function_list = [function.get('function_id')]
                         delete_function_cql = "DELETE FROM " \
-                                              "functions.functions WHERE function_id = %s;"
+                                              "functions.functions " \
+                                              "WHERE function_id = %s;"
                         cass_session.execute(delete_function_cql, delete_function_list)
                     else:
                         # 插入到 functions.fail_functions 表
@@ -78,11 +101,20 @@ def create_app():
                                                    "function_type, publisher) " \
                                                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
                         cass_session.execute(fail_function_insert_cql, fail_function_insert_list)
-                        # 删除 functions.functions 表里的 记录
+                        # 删除 fail_functions 表里的 记录
                         delete_function_list = [function.get('function_id')]
                         delete_function_cql = "DELETE FROM " \
-                                              "functions.functions WHERE function_id = %s;"
+                                              "functions.functions " \
+                                              "WHERE function_id = %s;"
                         cass_session.execute(delete_function_cql, delete_function_list)
+                        # 退款
+                        refund(function.get('function_id'))
+                        # 删除 functions.functions_contribution 里的记录
+                        delete_functions_contribution_list = [function.get('function_id')]
+                        delete_functions_contribution_cql = "DELETE FROM functions.functions_contribution " \
+                                                            "WHERE function_id = %s;"
+                        cass_session.execute(delete_functions_contribution_cql, delete_functions_contribution_list)
+
             return render_template('index.html', functions=functions)
         else:
             functions_page_list = [uuid.UUID(function_id)]
@@ -139,6 +171,13 @@ def create_app():
                         delete_function_cql = "DELETE FROM " \
                                               "functions.functions WHERE function_id = %s;"
                         cass_session.execute(delete_function_cql, delete_function_list)
+                        # 退款
+                        refund(function.get('function_id'))
+                        # 删除 functions.functions_contribution 里的记录
+                        delete_functions_contribution_list = [function.get('function_id')]
+                        delete_functions_contribution_cql = "DELETE FROM functions.functions_contribution " \
+                                                            "WHERE function_id = %s;"
+                        cass_session.execute(delete_functions_contribution_cql, delete_functions_contribution_list)
             return render_template('index.html', functions=functions_page)
 
     # 404 error handler
@@ -161,4 +200,3 @@ def create_app():
         return 'ok'
 
     return app
-

@@ -426,7 +426,6 @@ def collect_function(function_id_str):
 @user_bp.route('/functions_published/<function_id_str>')
 def function_publisher(function_id_str):
     function_id_uuid = uuid.UUID(function_id_str)
-    print(function_id_uuid)
     function_published_query_list = [function_id_uuid]
     function_published_query_cql = "SELECT * " \
                                    "FROM functions.functions " \
