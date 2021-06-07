@@ -1,7 +1,7 @@
 {% extends "admin/admin_info.html" %}
 
 {% block title %}
-    <title>收藏统计</title>
+    <title>打赏统计</title>
 {% endblock %}
 
 {% block profile_block %}
@@ -23,31 +23,37 @@
                                                                                         #
                                                                                     </th>
                                                                                     <th>
-                                                                                        任务标题
-                                                                                    </th>
-                                                                                    <th>
                                                                                         任务 ID
                                                                                     </th>
                                                                                     <th>
-                                                                                        收藏数量
+                                                                                        打赏时间
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        打赏金额
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        打赏用户
                                                                                     </th>
                                                                                 </tr>
                                                                             </thead>
-                                                                            {% for i in collectiion %}
+                                                                            {% for function_donations in all_functions_donations %}
                                                                                 <tbody>
                                                                                     <tr>
                                                                                         <td>
                                                                                             {{ loop.index }}
                                                                                         </td>
                                                                                         <td>
-                                                                                            {{ i.function_title }}
+                                                                                            {{ function_donations.function_id }}
 {#                                                                                            <a href="/admin/{{ i.function_id }}">{{ i.function_title }}</a>#}
                                                                                         </td>
                                                                                         <td>
-                                                                                            {{ i.function_id }}
+                                                                                            {{ function_donations.created_at }}
                                                                                         </td>
                                                                                         <td>
-                                                                                            {{ i.collections }}
+                                                                                            {{ function_donations.money }}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {{ function_donations.contribution_by_user }}
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>

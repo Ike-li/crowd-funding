@@ -319,3 +319,12 @@ def show_crowd_funding_fail_functions():
     return render_template('admin/admin_fail_functions.html', fail_functions=fail_functions)
 
 
+@admin_bp.route('/all_functions_collections')
+@load_admin
+def all_functions_donations():
+    all_functions_donations_cql = "SELECT * " \
+                                  "FROM functions.functions_contribution;"
+    all_functions_donations_rows = cass_session.execute(all_functions_donations_cql)
+    all_functions_donations_data = all_functions_donations_rows.all()
+    return render_template('admin/admin_all_functions_donations.html',
+                           all_functions_donations=all_functions_donations_data)

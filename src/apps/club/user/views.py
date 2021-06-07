@@ -384,7 +384,7 @@ def collect_function(function_id_str):
                            "AND function_id = %s;"
     function_rows = cass_session.execute(collection_query_cql, collection_query_list)
     if len(function_rows.all()) != 0:
-        flash("您已经收藏过该 项目")
+        flash("您已经收藏过该项目")
         return redirect(url_for('index'))
 
     function_query_list = [function_id_uuid]
