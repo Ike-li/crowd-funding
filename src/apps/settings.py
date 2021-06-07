@@ -8,9 +8,12 @@ def create_cass_session():
     """
     :return:
     """
+    # 服务器的数据库
     cluster = Cluster(['81.69.189.115'])
+    # 本地数据库
     # cluster = Cluster(['127.0.0.1'])
-    # cluster = Cluster(['81.69.189.115'])
+    # 备用数据库
+    # cluster = Cluster([''])
     session = cluster.connect()
     session.default_fetch_size = 1000  # 设置默认读取行数
     session.row_factory = dict_factory  # 返回 rows 的数据格式为字典(dict)
@@ -18,9 +21,6 @@ def create_cass_session():
 
 
 cass_session = create_cass_session()
-
-
-# cass_session.permanent = True  # 在用户登陆成功代码设置 session 持续时间为 True
 
 
 class Config(object):
