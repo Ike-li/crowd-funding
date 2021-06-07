@@ -189,7 +189,7 @@ def user_add_function():
         new_file_name = f"{cassandra.util.uuid_from_time(time.time())}.jpg"
         upload_path = os.path.join(base_path, '../../static/user_images', secure_filename(new_file_name))  # 重命名图片名
         file.save(upload_path)
-    function_cover = '../../static/user_images' + new_file_name  # 封面路径
+    function_cover = '../../static/user_images/' + new_file_name  # 封面路径
     function_id = cassandra.util.uuid_from_time(time.time())  # id
     function_content = request.form.get('content')
     created_at = datetime.now()  # 创建时间
