@@ -225,7 +225,7 @@ def user_add_function():
            "VALUES (%s,%s,%s,%s,%s,%s);"
     cass_session.execute(cql2, ls2)
     flash("添加任务成功！")
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 
 # 用户查看自己所有 已发布 / 未审核 / 审核中 / 未通过的 FR

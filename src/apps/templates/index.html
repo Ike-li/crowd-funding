@@ -231,12 +231,14 @@
                                                     {% endblock %}
 
                                                     {% block page_size %}
-													<form action="#" method="post">
-                                                        {% if functions | length > 9 %}
-                                                            <input type="button" value="加载更多" name="next page" class="center-block"/>
+													<form action="{{ url_for('index') }}" method="post">
+                                                        {% if functions | length == 9 %}
+                                                            <input type="submit" value="加载更多" name="next page" class="center-block"/>
+                                                            <input type="hidden" value="{{ (functions | last).function_id }}" name="function_id">
                                                         {% else %}
                                                             <center>没有更多了</center>
                                                         {% endif %}
+
 													</form>
                                                     {% endblock %}
                                                 </div>
