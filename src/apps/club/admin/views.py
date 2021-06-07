@@ -175,7 +175,6 @@ def check_function():
     cql10 = "UPDATE users.user_by_publish SET state = %s WHERE user_name = %s AND function_id = %s AND create_at = %s;"
     cass_session.execute(cql10, ls10)
 
-
     # FR 通过的操作
     if state == "已通过":
         # 查询 functions.functions_request 审核已通过的 FR
@@ -261,17 +260,30 @@ def show_one_collections(function_id):
 @admin_bp.route('/users', methods=['GET'])
 @load_admin
 def show_all_users():
-    cql = "SELECT user_name,user_account,user_phone FROM users.user;"
+    cql = "SELECT user_name,user_account,user_phone " \
+          "FROM users.user;"
     data = cass_session.execute(cql)
     users = data.all()
     return render_template('admin/admin_users_info.html', users=users)
 
 
-# 管理员查看单个用户信息
-@admin_bp.route('/user/<user_name>', methods=['GET'])
+# 管理员查看众筹成功的 Fr
+@admin_bp.route('/crowd-funding_success')
 @load_admin
-def show_one_user(user_name):
-    ls = [user_name]
-    cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s;"
-    data = cass_session.execute(cql, ls)
-    return render_template('admin/admin_one_user.html', parameter=data.all())
+def show_crowd_funding_success_functions():
+    success_functions_cql = "SELECT * " \
+                            "FROM functions.success_functions;"
+    success_functions_rows = cass_session.execute(success_functions_cql)
+    success_functions = success_functions_rows.all()
+    return render_template('admin/admin_success_functions.html', success_functions=success_functions)
+
+
+# 管理员查看众筹失败的 Fr
+@admin_bp.route('/crowd-funding_fail')
+@load_admin
+def show_crowd_funding_fail_functions():
+    fail_functions_cql = "SELECT * " \
+                         "FROM functions.fail_functions;"
+    fail_functions_rows = cass_session.execute(fail_functions_cql)
+    fail_functions = fail_functions_rows.all()
+    return render_template('admin/admin_fail_functions.html', fail_functions=fail_functions)

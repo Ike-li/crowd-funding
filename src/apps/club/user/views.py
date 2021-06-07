@@ -42,7 +42,7 @@ def load_user_name():
 # 模板全局变量 user_name
 @user_bp.app_context_processor
 def get_current_user():
-    user_account = None
+    # user_account = None
     user_name = load_user_name()
     if user_name is None:
         user_account = 0
