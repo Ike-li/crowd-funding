@@ -257,10 +257,18 @@ def function_unpublished_one(function_id):
 @user_bp.route('/my_donations')
 @load_user
 def my_donations():
-    ls = [session.get('user_name')]
-    cql = "SELECT * FROM users.user_by_contribution WHERE user_name = %s;"
-    rows = cass_session.execute(cql, ls)
-    functions = rows.all()
+    user_donate_list = [session.get('user_name')]
+    # 用户对该 FR 的打赏
+    user_donate_cql = "SELECT * FROM users.user_by_contribution WHERE user_name = %s;"
+    user_donate_rows = cass_session.execute(user_donate_cql, user_donate_list)
+    functions = user_donate_rows.all()
+    # # 所有玩家对 此 FR 的打赏
+    # function_id = functions[0].get('function_id')
+    # all_donate_list = [function_id]
+    # all_donate_cql = "SELECT crowd_funding_current_money FROM functions.functions WHERE function_id = %s;"
+    # all_donate_rows = cass_session.execute(all_donate_cql, all_donate_list)
+    # all_donate = all_donate_rows.all()[0].get('crowd_funding_current_money')
+
     return render_template('user/my_donations.html', args=functions, state="我的打赏")
 
 
@@ -530,6 +538,13 @@ def donate_function():
                                       "state) VALUES (%s, %s, %s, %s, %s, %s, %s);"
     cass_session.execute(user_by_contribution_insert_cql, user_by_contribution_insert_list)
 
+    # 插入到 functions.functions_contribution 表
+    functions_contribution_insert_list = [function_id_uuid, created_at, session['user_name'], donate_money]
+    functions_contribution_insert_cql = "INSERT INTO functions.functions_contribution " \
+                                        "(function_id, created_at, contribution_by_user, money) " \
+                                        "VALUES (%s, %s, %s, %s);"
+    cass_session.execute(functions_contribution_insert_cql, functions_contribution_insert_list)
+
     # 用户账户减去相应金额
     user_name = session['user_name']
     user_money_query_list = [user_name]
@@ -543,6 +558,6 @@ def donate_function():
     user_money_insert_cql = "UPDATE users.user " \
                             "SET user_account = %s " \
                             "WHERE user_name = %s;"
-    cass_session.execute(user_money_insert_cql,user_money_insert_list)
+    cass_session.execute(user_money_insert_cql, user_money_insert_list)
     flash("打赏成功")
     return redirect(url_for('index'))
