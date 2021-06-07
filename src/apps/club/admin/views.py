@@ -175,18 +175,6 @@ def check_function():
     cql10 = "UPDATE users.user_by_publish SET state = %s WHERE user_name = %s AND function_id = %s AND create_at = %s;"
     cass_session.execute(cql10, ls10)
 
-    # # 删除 user.user_by_publish 的旧记录
-    # ls11 = [ls3[0].get('publisher'), function_id, ls3[0].get('created_at')]
-    # cql11 = "DELETE FROM users.user_by_publish WHERE user_name = %s AND function_id = %s AND create_at = %s;"
-    # cass_session.execute(cql11, ls11)
-    #
-    # # 更新 FR 到 user.user_by_publish
-    # ls10 = [ls3[0].get('publisher'), function_id, ls3[0].get('created_at'), ls3[0].get('function_title'),
-    #         ls3[0].get('function_type'), state]
-    # cql10 = "INSERT INTO users.user_by_publish (user_name, function_id, create_at, function_title, function_type, " \
-    #         "state) VALUES (%s,%s,%s,%s,%s,%s);"
-    # cass_session.execute(cql10, ls10)
-    # cass_session.execute(cql4, ls4)
 
     # FR 通过的操作
     if state == "已通过":
@@ -248,16 +236,14 @@ def check_function():
 
 
 # 管理员查看各功能收藏统计
-@admin_bp.route('/collections', methods=['GET'])
+@admin_bp.route('/all_functions_collections', methods=['GET'])
 @load_admin
 def show_all_collections():
-    cql = "SELECT function_id,function_title,collections FROM functions.functions_collections_counter;"
-    data = cass_session.execute(cql)
-    # ls1 = []
-    # for i in data:
-    #     ls1.append(i)
-    ls1 = data.all()
-    return render_template('admin/admin_all_functions_collections.html', parameter=ls1)
+    all_functions_collections_cql = "SELECT function_id,function_title,collections " \
+                                    "FROM functions.functions_collections_counter;"
+    all_functions_collections__rows = cass_session.execute(all_functions_collections_cql)
+    collection = all_functions_collections__rows.all()
+    return render_template('admin/admin_all_functions_collections.html', collectiion=collection)
 
 
 # 管理员查看单个功能的收藏统计
@@ -265,23 +251,20 @@ def show_all_collections():
 @load_admin
 def show_one_collections(function_id):
     ls = [uuid.UUID(function_id)]
-    print(ls)
     cql = "SELECT * FROM functions.functions_collections WHERE function_id = %s;"
     data = cass_session.execute(cql, ls)
-    return render_template('admin/admin_one_function_collections.html', parameter=data.all())
+    collections = data.all()
+    return render_template('admin/admin_one_functions_collections.html', collections=collections)
 
 
-# 用户查看所有用户
+# 管理员查看所有用户
 @admin_bp.route('/users', methods=['GET'])
 @load_admin
 def show_all_users():
     cql = "SELECT user_name,user_account,user_phone FROM users.user;"
     data = cass_session.execute(cql)
-    # ls = []
-    # for i in data:
-    #     ls.append(i)
-    ls = data.all()
-    return render_template('admin/admin_users.html', parameter=ls)
+    users = data.all()
+    return render_template('admin/admin_users_info.html', users=users)
 
 
 # 管理员查看单个用户信息
@@ -289,7 +272,6 @@ def show_all_users():
 @load_admin
 def show_one_user(user_name):
     ls = [user_name]
-    print(user_name)
     cql = "SELECT * FROM users.user_by_publish WHERE user_name = %s;"
     data = cass_session.execute(cql, ls)
     return render_template('admin/admin_one_user.html', parameter=data.all())
