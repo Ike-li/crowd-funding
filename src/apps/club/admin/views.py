@@ -78,7 +78,6 @@ def admin_login():
     admin_password_get_data = cass_session.execute(admin_password_cql, admin_name_list)
 
     for admin_password_rows in admin_password_get_data:
-        # if admin_name and admin_passwd == admin_passwd['admin_passwd']:
         if admin_password == admin_password_rows['admin_passwd']:
             session['admin_name'] = admin_name
             session.permanent = True  # 在用户登陆成功代码设置 session 持续时间为 True
@@ -113,7 +112,6 @@ def functions_state():
           "WHERE state = %s; "
     data = cass_session.execute(cql, ls)
     functions = data.all()
-    print(functions)
     # ls1 = []
     # for i in data:
     #     ls1.append(i)
@@ -152,7 +150,6 @@ def check_function():
     comments = request.form.get('comments')
     function_id = uuid.UUID(request.form.get('function_id'))
     ls = [comments, state, function_id]
-    print(ls)
 
     # 更新 functions.functions_request 的状态
     cql = "UPDATE functions.functions_request " \
@@ -179,7 +176,6 @@ def check_function():
     # 插入修改后的记录进 functions.functions_request_by_status表
     ls4 = [state, function_id, ls3[0].get('created_at'), ls3[0].get('function_title'), ls3[0].get('function_type'),
            ls3[0].get('publisher')]
-    print(ls4)
     cql4 = "INSERT INTO functions.functions_request_by_status " \
            "(state, function_id, created_at, function_title, function_type, publisher) " \
            "VALUES (%s, %s,%s, %s, %s, %s); "
