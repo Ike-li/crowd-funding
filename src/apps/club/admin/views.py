@@ -38,12 +38,12 @@ def get_current_admin():
 @admin_bp.route('/')
 @load_admin
 def admin_center():
-    cql = "SELECT * " \
-          "FROM functions.functions_request_by_status " \
-          "WHERE state = '未审核';"
-    data = cass_session.execute(cql)
-    functions_request = data.all()
-    return render_template('admin/admin_info.html', args=functions_request, state="未审核")
+    functions_request_by_status_cql = "SELECT * " \
+                                      "FROM functions.functions_request_by_status " \
+                                      "WHERE state = '未审核';"
+    functions_rows = cass_session.execute(functions_request_by_status_cql)
+    functions = functions_rows.all()
+    return render_template('admin/admin_info.html', args=functions, state="未审核")
 
 
 # 管理员登录界面
@@ -60,26 +60,26 @@ def admin_login():
         return render_template('admin/admin_login.html')
     # 接受收表单提交过来的参数
     admin_name = request.form.get('admin_name')
-    admin_passwd = request.form.get('admin_passwd')
+    admin_password = request.form.get('admin_passwd')
     # 根据用户名在数据库比对用户信息的合法性
-    cass_ls = [admin_name]
-    cql = "SELECT * " \
-          "FROM functions.admin " \
-          "WHERE admin_name = %s;"
+    admin_name_list = [admin_name]
+    admin_name_cql = "SELECT * " \
+                     "FROM functions.admin " \
+                     "WHERE admin_name = %s;"
 
     # 判断管理员是否存在
-    if len(cass_session.execute(cql, cass_ls).all()) == 0:
+    if len(cass_session.execute(admin_name_cql, admin_name_list).all()) == 0:
         return render_template('admin/admin_login.html', msg='该管理员不存在!')
 
     # 如果管理员存在则对比密码是否相等
-    cql1 = "SELECT admin_passwd " \
-           "FROM functions.admin " \
-           "WHERE admin_name = %s;"
-    cass_get_data = cass_session.execute(cql1, cass_ls)
+    admin_password_cql = "SELECT admin_passwd " \
+                         "FROM functions.admin " \
+                         "WHERE admin_name = %s;"
+    admin_password_get_data = cass_session.execute(admin_password_cql, admin_name_list)
 
-    for rows in cass_get_data:
+    for admin_password_rows in admin_password_get_data:
         # if admin_name and admin_passwd == admin_passwd['admin_passwd']:
-        if admin_passwd == rows['admin_passwd']:
+        if admin_password == admin_password_rows['admin_passwd']:
             session['admin_name'] = admin_name
             session.permanent = True  # 在用户登陆成功代码设置 session 持续时间为 True
             flash("欢迎回来！" + admin_name)
@@ -94,7 +94,7 @@ def admin_login():
 def admin_logout():
     session.pop('admin_name')
     flash("注销成功")
-    return redirect(url_for('index', ))
+    return redirect(url_for('index'))
 
 
 # 管理员查看审核表各功能的状态
