@@ -19,9 +19,10 @@ MarkDown 编辑器采用的 flask-ckeditor
 #### 安装教程
 
 1. `pip3 install -r requirements.txt` 
-2. `python3 app.py runserver -h 0.0.0.0 -p 5000`
-3. 使用 项目内自带的数据库地址时，管理员登陆地址为：http://127.0.0.1:5000/login ，管理员账号：admin       密码：123
-4. 测试用户有 user1 ,user2，密码均为123
+2. cd 到 src/apps 路径下
+3. `\src\apps> flask run`
+4. 使用 项目内自带的数据库地址时，管理员登陆地址为：http://127.0.0.1:5000/login ，管理员账号：admin       密码：123
+5. 测试用户有 user1 ,user2，密码均为123
 
 #### 项目说明
 
