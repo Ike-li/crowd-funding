@@ -314,6 +314,7 @@ def show_crowd_funding_fail_functions():
     fail_functions = fail_functions_rows.all()
     return render_template('admin/admin_fail_functions.html', fail_functions=fail_functions)
 
+
 # 打赏统计
 @admin_bp.route('/all_functions_donations')
 @load_admin
