@@ -185,18 +185,4 @@ def create_app():
     def page_not_found(e):
         return render_template('errors/404.html'), 404
 
-    @app.route('/base')
-    def base():
-        return render_template('base.html')
-
-    @app.route('/user_base')
-    def user_base():
-        return render_template('user/user_base.html')
-
-    @app.route('/test', methods=["GET", "POST"])
-    def index1():
-        function_id = request.form.get('function_id')
-        print(function_id)
-        return 'ok'
-
     return app
