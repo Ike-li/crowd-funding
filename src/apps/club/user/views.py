@@ -587,10 +587,13 @@ def donate_function():
     cass_session.execute(user_by_contribution_insert_cql, user_by_contribution_insert_list)
 
     # 插入到 functions.functions_contribution 表
-    functions_contribution_insert_list = [function_id_uuid, created_at, session['user_name'], donate_money]
+    functions_contribution_insert_list = [function_id_uuid, created_at, session['user_name'],
+                                          donated_function.get('function_title'),
+                                          donated_function.get('function_type'), donate_money]
     functions_contribution_insert_cql = "INSERT INTO functions.functions_contribution " \
-                                        "(function_id, created_at, contribution_by_user, money) " \
-                                        "VALUES (%s, %s, %s, %s);"
+                                        "(function_id, created_at, contribution_by_user, function_title, " \
+                                        "function_type, money) " \
+                                        "VALUES (%s, %s, %s, %s, %s, %s);"
     cass_session.execute(functions_contribution_insert_cql, functions_contribution_insert_list)
 
     # 用户账户减去相应金额
