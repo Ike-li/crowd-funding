@@ -5,7 +5,7 @@ import requests
 
 
 def upload_file_to_github_drawing_bed(file_name, file_address):
-    github_token = "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"
+    github_token = "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"
     url = "https://api.github.com/repos/Ike-li/Drawing_Bed/contents/pictures/" + file_name  # 用户名、库名、路径
     headers = {"Authorization": "token " + github_token}
     file = open(file_address, 'rb')
@@ -20,6 +20,9 @@ def upload_file_to_github_drawing_bed(file_name, file_address):
         "content": content
     }
     data = json.dumps(data)
-    req = requests.put(url=url, data=data, headers=headers)
-    req.encoding = "utf-8"
-    re_data = json.loads(req.text)
+    requests.put(url=url, data=data, headers=headers)
+    # req = requests.put(url=url, data=data, headers=headers)
+    # req.encoding = "utf-8"
+    # re_data = json.loads(req.text)
+    # print(re_data)
+    print("添加成功")
