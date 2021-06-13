@@ -38,8 +38,16 @@
 
                                                                         <li>
                                                                             <label>活动封面</label>
-                                                                            <input type="file" name="function-cover" id="ipt" placeholder="建议">
-                                                                            <img src="" alt="" id="img">
+                                                                            {% if function_arg.state == "审核中" %}
+                                                                            {% elif function_arg.state == "未通过" %}
+
+                                                                            {% else %}
+                                                                                <input type="file" name="function-cover" id="ipt" placeholder="建议">
+                                                                            {% endif %}
+
+                                                                            <img src="https://cdn.jsdelivr.net/gh/Ike-li/Drawing_Bed/pictures/{{ function_arg.function_cover }}" alt="" id="img">
+                                                                            <br>
+                                                                            <br>
                                                                         </li>
                                                                     </ul>
                                                                 </div>

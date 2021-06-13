@@ -8,6 +8,8 @@ import cassandra.util
 from flask import Blueprint, session, render_template, request, flash, redirect, url_for
 from werkzeug.utils import secure_filename
 
+# 导入 GitHub 图床工具
+from src.apps.extensions.upload_images_to_github_drawing_bed import upload_file_to_github_drawing_bed
 from src.apps.settings import cass_session
 
 user_bp = Blueprint('user', __name__)
@@ -189,7 +191,10 @@ def user_add_function():
         new_file_name = f"{cassandra.util.uuid_from_time(time.time())}.jpg"
         upload_path = os.path.join(base_path, '../../static/user_images', secure_filename(new_file_name))  # 重命名图片名
         file.save(upload_path)
-    function_cover = '../../static/user_images/' + new_file_name  # 封面路径
+        # 上传到 GitHub 图床
+        upload_file_to_github_drawing_bed(new_file_name, upload_path)
+
+    function_cover_name = new_file_name  # 封面路径
     function_id = cassandra.util.uuid_from_time(time.time())  # id
     function_content = request.form.get('content')
     created_at = datetime.now()  # 创建时间
@@ -202,8 +207,8 @@ def user_add_function():
     state = "未审核"
     comments = None
     # 添加 FR 到 functions.functions_request
-    ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content, function_cover,
-          function_introduction, function_title, function_type, publisher, state]
+    ls = [function_id, comments, created_at, crowd_funding_days, crowd_funding_money, function_content,
+          function_cover_name, function_introduction, function_title, function_type, publisher, state]
     cql = "INSERT INTO functions.functions_request " \
           "(function_id, comments, created_at, crowd_funding_days, " \
           "crowd_funding_money, function_content, function_cover, function_introduction, function_title, " \

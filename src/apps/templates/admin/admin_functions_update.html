@@ -28,9 +28,15 @@
                                                         {% for function_arg in args %}
                                                         <div class="cs-profile-area">
                                                             <div class="cs-title no-border">
-                                                                <h3>
-                                                                    审核一个新项目
-                                                                </h3>
+                                                                {% if function_arg.state == "未通过" %}
+                                                                    <h3>{{ function_arg.state }}项目</h3>
+                                                                {% elif function_arg.state == "已通过" %}
+                                                                    <h3>{{ function_arg.state }}项目</h3>
+                                                                {% else %}
+                                                                    <h3>
+                                                                        审核一个新项目
+                                                                    </h3>
+                                                                {% endif %}
                                                             </div>
                                                             <div class="cs-profile-holder">
                                                                 <div class="gallery-area">
@@ -38,9 +44,11 @@
 
                                                                         <li>
                                                                             <label>活动封面</label>
-                                                                            <input type="file" name="function-cover" id="ipt" placeholder="建议">
-                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面</span>
-                                                                            <img src="" alt="" id="img">
+{#                                                                            <input type="file" name="function-cover" id="ipt" placeholder="建议">#}
+{#                                                                            <span class="char-remain">强烈建议使用大小为：270 x 203 的图片作为封面</span>#}
+                                                                            <img src="https://cdn.jsdelivr.net/gh/Ike-li/Drawing_Bed/pictures/{{ function_arg.function_cover }}" alt="" id="img">
+                                                                            <br>
+                                                                            <br>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
@@ -144,7 +152,9 @@
                                                                         </div>
                                                                     </li>
                                                                 </ul>
-
+                                                            {% if function_arg.state == "未通过" %}
+                                                            {% elif function_arg.state == "已通过" %}
+                                                            {% else %}
                                                                 <ul class="cs-element-list cs-submit-form">
                                                                     <li>
                                                                         <div class="fields-area">
@@ -156,6 +166,8 @@
                                                                         </div>
                                                                     </li>
                                                                 </ul>
+                                                            {% endif %}
+
                                                             </div>
                                                         </div>
                                                         {% endfor %}
