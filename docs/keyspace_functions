@@ -288,6 +288,8 @@ CREATE TABLE functions.functions_contribution (
     function_id timeuuid,
     created_at timestamp,
     contribution_by_user text,
+    function_title text,
+    function_type text,
     money int,
     PRIMARY KEY (function_id, created_at)
 ) WITH CLUSTERING ORDER BY (created_at ASC)

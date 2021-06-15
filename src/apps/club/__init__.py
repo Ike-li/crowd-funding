@@ -59,13 +59,15 @@ def create_app():
             functions_rows = cass_session.execute(functions_cql)
             functions = functions_rows.all()
             for function in functions:
+                # 检查任务是否到期
                 if function.get('closing_time') < (datetime.now()):
+                    # 检查任务是否在到期的前提下达到筹集金额
                     if function.get('crowd_funding_current_money') >= function.get('crowd_funding_money'):
-                        # 插入到 functions.success_functions 表
+                        # 任务众筹成功，插入到 functions.success_functions 表
                         success_function_insert_list = [function.get('function_id'), function.get('closing_time'),
                                                         function.get('created_at'), function.get('created_at_date'),
                                                         function.get('crowd_funding_days'),
-                                                        function.get('crowd_funding_money'),
+                                                        function.get('crowd_funding_current_money'),
                                                         function.get('function_content'),
                                                         function.get('function_cover'),
                                                         function.get('function_introduction'),
@@ -78,18 +80,32 @@ def create_app():
                                                       "function_type, publisher) " \
                                                       "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
                         cass_session.execute(success_function_insert_cql, success_function_insert_list)
-                        # 删除 functions.functions 表里的 记录
+                        # 任务众筹成功，发起人获得一定比例的酬劳 10%
+                        reward_money = function.get('crowd_funding_current_money')
+                        publisher = function.get('publisher')
+                        publisher_query_list = [publisher]
+                        publisher_query_cql = "SELECT user_account " \
+                                              "FROM users.user " \
+                                              "WHERE user_name = %s;"
+                        publisher_account_rows = cass_session.execute(publisher_query_cql, publisher_query_list)
+                        publisher_account = ((publisher_account_rows.all())[0]).get('user_account')
+                        publisher_reward_list = [publisher, publisher_account + int(reward_money * 0.1)]
+                        publisher_reward_cql = "INSERT INTO users.user(user_name, user_account) " \
+                                               "VALUES (%s, %s);"
+                        cass_session.execute(publisher_reward_cql, publisher_reward_list)
+                        # 任务众筹成功，删除 functions.functions 表里的 记录
                         delete_function_list = [function.get('function_id')]
                         delete_function_cql = "DELETE FROM " \
                                               "functions.functions " \
                                               "WHERE function_id = %s;"
                         cass_session.execute(delete_function_cql, delete_function_list)
+
                     else:
                         # 插入到 functions.fail_functions 表
                         fail_function_insert_list = [function.get('function_id'), function.get('closing_time'),
                                                      function.get('created_at'), function.get('created_at_date'),
                                                      function.get('crowd_funding_days'),
-                                                     function.get('crowd_funding_money'),
+                                                     function.get('crowd_funding_current_money'),
                                                      function.get('function_content'), function.get('function_cover'),
                                                      function.get('function_introduction'),
                                                      function.get('function_title'),
@@ -101,12 +117,6 @@ def create_app():
                                                    "function_type, publisher) " \
                                                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
                         cass_session.execute(fail_function_insert_cql, fail_function_insert_list)
-                        # 删除 fail_functions 表里的 记录
-                        delete_function_list = [function.get('function_id')]
-                        delete_function_cql = "DELETE FROM " \
-                                              "functions.functions " \
-                                              "WHERE function_id = %s;"
-                        cass_session.execute(delete_function_cql, delete_function_list)
                         # 退款
                         refund(function.get('function_id'))
                         # 删除 functions.functions_contribution 里的记录
@@ -114,7 +124,12 @@ def create_app():
                         delete_functions_contribution_cql = "DELETE FROM functions.functions_contribution " \
                                                             "WHERE function_id = %s;"
                         cass_session.execute(delete_functions_contribution_cql, delete_functions_contribution_list)
-
+                        # 删除 functions 表里的 记录
+                        delete_function_list = [function.get('function_id')]
+                        delete_function_cql = "DELETE FROM " \
+                                              "functions.functions " \
+                                              "WHERE function_id = %s;"
+                        cass_session.execute(delete_function_cql, delete_function_list)
             return render_template('index.html', functions=functions)
         else:
             functions_page_list = [uuid.UUID(function_id)]
@@ -125,13 +140,15 @@ def create_app():
             functions_page_rows = cass_session.execute(functions_page_cql, functions_page_list)
             functions_page = functions_page_rows.all()
             for function in functions_page:
+                # 检查任务是否到期
                 if function.get('closing_time') < (datetime.now()):
+                    # 检查任务是否在到期的前提下达到筹集金额
                     if function.get('crowd_funding_current_money') >= function.get('crowd_funding_money'):
                         # 插入到 functions.success_functions 表
                         success_function_insert_list = [function.get('function_id'), function.get('closing_time'),
                                                         function.get('created_at'), function.get('created_at_date'),
                                                         function.get('crowd_funding_days'),
-                                                        function.get('crowd_funding_money'),
+                                                        function.get('crowd_funding_current_money'),
                                                         function.get('function_content'),
                                                         function.get('function_cover'),
                                                         function.get('function_introduction'),
@@ -144,6 +161,19 @@ def create_app():
                                                       "function_type, publisher) " \
                                                       "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
                         cass_session.execute(success_function_insert_cql, success_function_insert_list)
+                        # 任务众筹成功，发起人获得一定比例的酬劳 10%
+                        reward_money = function.get('crowd_funding_current_money')
+                        publisher = function.get('publisher')
+                        publisher_query_list = [publisher]
+                        publisher_query_cql = "SELECT user_account " \
+                                              "FROM users.user " \
+                                              "WHERE user_name = %s;"
+                        publisher_account_rows = cass_session.execute(publisher_query_cql, publisher_query_list)
+                        publisher_account = ((publisher_account_rows.all())[0]).get('user_account')
+                        publisher_reward_list = [publisher, publisher_account + int(reward_money * 0.1)]
+                        publisher_reward_cql = "INSERT INTO users.user(user_name, user_account) " \
+                                               "VALUES (%s, %s);"
+                        cass_session.execute(publisher_reward_cql, publisher_reward_list)
                         # 删除 functions.functions 表里的 记录
                         delete_function_list = [function.get('function_id')]
                         delete_function_cql = "DELETE FROM " \
@@ -154,7 +184,7 @@ def create_app():
                         fail_function_insert_list = [function.get('function_id'), function.get('closing_time'),
                                                      function.get('created_at'), function.get('created_at_date'),
                                                      function.get('crowd_funding_days'),
-                                                     function.get('crowd_funding_money'),
+                                                     function.get('crowd_funding_current_money'),
                                                      function.get('function_content'), function.get('function_cover'),
                                                      function.get('function_introduction'),
                                                      function.get('function_title'),
@@ -166,11 +196,6 @@ def create_app():
                                                    "function_type, publisher) " \
                                                    "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"
                         cass_session.execute(fail_function_insert_cql, fail_function_insert_list)
-                        # 删除 functions.functions 表里的 记录
-                        delete_function_list = [function.get('function_id')]
-                        delete_function_cql = "DELETE FROM " \
-                                              "functions.functions WHERE function_id = %s;"
-                        cass_session.execute(delete_function_cql, delete_function_list)
                         # 退款
                         refund(function.get('function_id'))
                         # 删除 functions.functions_contribution 里的记录
@@ -178,6 +203,11 @@ def create_app():
                         delete_functions_contribution_cql = "DELETE FROM functions.functions_contribution " \
                                                             "WHERE function_id = %s;"
                         cass_session.execute(delete_functions_contribution_cql, delete_functions_contribution_list)
+                        # 删除 functions.functions 表里的 记录
+                        delete_function_list = [function.get('function_id')]
+                        delete_function_cql = "DELETE FROM " \
+                                              "functions.functions WHERE function_id = %s;"
+                        cass_session.execute(delete_function_cql, delete_function_list)
             return render_template('index.html', functions=functions_page)
 
     # 404 error handler
