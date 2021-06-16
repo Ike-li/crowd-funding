@@ -15,6 +15,7 @@
  flask 蓝图结构
 
 MarkDown 编辑器采用的 flask-ckeditor
+
 图片服务采用GitHub托管
 
 #### 安装教程
