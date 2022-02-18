@@ -1,0 +1,39 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+    - id: check-yaml
+    - id: debug-statements
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+
+  - repo: https://github.com/PyCQA/flake8
+    rev: 3.9.2
+    hooks:
+    - id: flake8
+      args:
+      - --max-line-length=131
+      - --ignore=E123,E124,W504
+
+  - repo: https://github.com/pre-commit/mirrors-yapf
+    rev: v0.31.0
+    hooks:
+    - id: yapf
+      args: [-r,-i]
+      additional_dependencies: [toml]
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+    - id: isort
+
+  - repo: https://github.com/asottile/yesqa
+    rev: v1.2.3
+    hooks:
+    - id: yesqa
+
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.25.0
+    hooks:
+    - id: pyupgrade
+      args: [--py36-plus]
