@@ -9,7 +9,7 @@ def create_cass_session():
     :return:
     """
     # 服务器的数据库
-    cluster = Cluster(['81.69.189.115'])
+    cluster = Cluster(["81.69.189.115"])
     # 本地数据库
     # cluster = Cluster(['127.0.0.1'])
     # 备用数据库
@@ -23,22 +23,24 @@ def create_cass_session():
 cass_session = create_cass_session()
 
 
-class Config(object):
+class Config:
     DEBUG = False
     TESTING = False
-    SECRET_KEY = '123qwe'
+    SECRET_KEY = "123qwe"
 
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=20)  # 设置 session 持续时间（20分钟），默认 permanent 为 True
+    PERMANENT_SESSION_LIFETIME = timedelta(
+        minutes=20
+    )  # 设置 session 持续时间（20分钟），默认 permanent 为 True
     SESSION_REFRESH_EACH_REQUEST = True  # session中存储的是字典时，修改字典内部元素时，会造成数据不更新，这时使用 SESSION_REFRESH__EACH_REQUEST = True
 
 
 class ProductionConfig(Config):
-    ENV = 'production'
+    ENV = "production"
     DEBUG = False
 
 
 class DevelopmentConfig(Config):
-    ENV = 'development'
+    ENV = "development"
     DEBUG = True
 
 
