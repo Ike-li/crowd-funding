@@ -20,7 +20,7 @@ MarkDown 编辑器采用的 flask-ckeditor
 
 #### 安装教程
 
-1. `pip3 install -r requirements.txt` 
+1. `pip3 install -r requirements.txt`
 2. cd 到 src/apps 路径下
 3. `\src\apps> flask run`
 4. 使用 项目内自带的数据库地址时，管理员登陆地址为：http://127.0.0.1:5000/login ，管理员账号：admin       密码：123
@@ -64,13 +64,13 @@ MarkDown 编辑器采用的 flask-ckeditor
 
 14. 用户可以对每一个功能需求进行收藏                                                                                                                                   ✔
 
-15. 后台可以看到收藏的数量                                                                                                                                                      ✔    
+15. 后台可以看到收藏的数量                                                                                                                                                      ✔
 
 16. 众凑成功后，众筹发起人可以获得一定比例的虚拟货币作为奖励，例如可以将10%给发起人                                       ✔
 
 17. 评论功能                                                                                                                                                                                  ✖
 
-    
+
 
 #### Example
 
